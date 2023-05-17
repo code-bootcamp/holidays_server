@@ -12,9 +12,6 @@ export class CreateBoardInput {
   @Field(() => String)
   email: string;
 
-  @Field(() => String)
-  birth_date: string;
-
   @Field(() => [ImageInput], { nullable: true })
   imageInput: ImageInput[];
 }

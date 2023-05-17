@@ -40,11 +40,11 @@ export class Class {
   @Field(() => String)
   address_detail: string;
 
-  @Column({ type: 'decimal', precision: 6, scale: 2 })
+  @Column({ type: 'decimal', precision: 6, scale: 2, default: 0.0 })
   @Field(() => Float)
   lat: number;
 
-  @Column({ type: 'decimal', precision: 6, scale: 3 })
+  @Column({ type: 'decimal', precision: 6, scale: 3, default: 0.0 })
   @Field(() => Float)
   lon: number;
 
@@ -75,6 +75,10 @@ export class Class {
   @Column()
   @Field(() => String)
   bankName: string;
+
+  @Column({ default: 0 })
+  @Field(() => Int)
+  is_ad: number;
 
   @CreateDateColumn()
   @Field(() => Date)

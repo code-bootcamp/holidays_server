@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Class_AdsService } from '../class_ads/class_ads.service';
 import { ClassSchedulesService } from '../class_schedules/class_schedules.service';
 import { ClassSchedule } from '../class_schedules/entities/class_schedule.entity';
 import { Image } from '../images/entities/image.entity';
@@ -22,10 +23,11 @@ import { Class } from './entities/class.entity';
     ClassesService,
     ImagesService,
     ClassSchedulesService,
+    // Class_AdsService,
   ],
 
-  // exports: [
-  //   ClassesService, //
-  // ],
+  exports: [
+    ClassesService, //
+  ],
 })
 export class ClassesModule {}

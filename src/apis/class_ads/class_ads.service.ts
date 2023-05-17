@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { Class } from '../classes/entities/class.entity';
+import { ClassesService } from '../classes/classes.service';
 import { IamPortService } from '../iamport/iamport.service';
 
 import { ClASSAD_STATUS_ENUM, Class_Ad } from './entities/class_ad.entity';
@@ -26,6 +26,8 @@ export class Class_AdsService {
   constructor(
     @InjectRepository(Class_Ad)
     private readonly classAdRepository: Repository<Class_Ad>, //
+
+    private readonly classesService: ClassesService,
 
     private readonly iamPortService: IamPortService,
 
@@ -63,6 +65,9 @@ export class Class_AdsService {
       });
 
       await queryRunner.manager.save(classAd);
+
+      const class_id = classAd.class_;
+      await this.classesService.updateIsAd(class_id);
 
       await queryRunner.commitTransaction();
 
