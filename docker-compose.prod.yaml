@@ -5,12 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./src:/myfolder/src
     ports:
       - 3000:3000
     env_file:
-      - ./.env.docker
+      - ./.env.prod
   holidays-redis:
     image: redis:latest
     ports:
