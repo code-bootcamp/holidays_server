@@ -24,7 +24,7 @@ export class ClassReviewsService {
     return test;
   }
 
-  update({ updateClassReivewInput }) {
+  update({ updateClassReviewInput }) {
     const test = {
       cr_id: 'test',
       content: '테스트',

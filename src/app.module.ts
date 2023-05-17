@@ -14,6 +14,9 @@ import { ClassSchedulesModule } from './apis/class_schedules/class_schedules.mod
 import { FilesModule } from './apis/files/files.module';
 import { ReservationsModule } from './apis/reservations/reservations.module';
 import { WishlistsModule } from './apis/wishlists/wishLists.module';
+import { BoardReviewsModule } from './apis/board_reviews/board_reviews.module';
+import { ImagesModule } from './apis/images/images.module';
+import { AuthModule } from './apis/auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { WishlistsModule } from './apis/wishlists/wishLists.module';
     FilesModule,
     ReservationsModule,
     WishlistsModule,
+    BoardReviewsModule,
+    ImagesModule,
+    AuthModule,
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

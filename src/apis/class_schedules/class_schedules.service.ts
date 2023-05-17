@@ -7,15 +7,28 @@ import { ClassSchedule } from './entities/class_schedule.entity';
 export class ClassSchedulesService {
   constructor(
     @InjectRepository(ClassSchedule)
-    private readonly reservationsRepository: Repository<ClassSchedule>, //
+    private readonly classSchedulesRepository: Repository<ClassSchedule>, //
   ) {}
 
   findAllByUser({ class_id }): Promise<ClassSchedule[]> {
-    return this.reservationsRepository.find({ where: { class_: class_id } });
+    return this.classSchedulesRepository.find({ where: { class_: class_id } });
   }
 
-  async create({ createClassScheduleInput }): Promise<string> {
-    return await '예약 승인!';
+  async create({ classSchedulesInput, class_id }): Promise<string> {
+    const schedule = [];
+    for (let i = 0; i < classSchedulesInput.length; i++) {
+      schedule.push({
+        date: classSchedulesInput[i].date,
+        remain: classSchedulesInput[i].remain,
+        class_id,
+      });
+
+      const results = await this.classSchedulesRepository.insert(schedule);
+
+      return 'dd';
+    }
+
+    await this.classSchedulesRepository.save({});
   }
 
   async update({ updateClassScheduleInput }): Promise<boolean> {
@@ -23,7 +36,7 @@ export class ClassSchedulesService {
   }
 
   async delete({ cs_id }): Promise<boolean> {
-    const result = await this.reservationsRepository.softDelete({ cs_id });
+    const result = await this.classSchedulesRepository.softDelete({ cs_id });
 
     return result.affected ? true : false;
   }

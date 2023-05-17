@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Class } from 'src/apis/classes/entities/class.entity';
+import { Board } from 'src/apis/boards/entities/board.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
@@ -12,7 +12,7 @@ import {
 
 @Entity()
 @ObjectType()
-export class Board_Review {
+export class BoardReview {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
   br_id: string;
@@ -33,7 +33,7 @@ export class Board_Review {
   @Field(() => User)
   user_: User;
 
-  @ManyToOne(() => Class)
-  @Field(() => Class)
-  class_: Class;
+  @ManyToOne(() => Board)
+  @Field(() => Board)
+  board_: Board;
 }

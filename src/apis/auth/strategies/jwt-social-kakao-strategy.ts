@@ -15,15 +15,13 @@ export class JwtKaKaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     // console.log(accessToken);
     // console.log(refreshToken);
     // console.log(profile);
-    
+
     return {
-      user_name: profile.displayName,
-      user_email: profile._json.kakao_account.email,
-      user_address: 'social',
-      user_phone: 'social',
-      user_pwd: 'social',
-      user_ssn: 'social',
+      name: profile.displayName,
+      email: profile._json.kakao_account.email,
+      phone: 'social',
+      pwd: 'social',
+      birth_date: 'social',
     };
   }
 }
-

@@ -1,4 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { CreateClassScheduleInput } from 'src/apis/class_schedules/dto/create-class_schedule.input';
 import { ImageInput } from 'src/apis/images/dto/image_input';
 
 @InputType()
@@ -30,6 +31,18 @@ export class CreateClassInput {
   @Field(() => String)
   content: string;
 
-  @Field(() => [ImageInput], { nullable: true })
+  @Field(() => String)
+  accountNum: string;
+
+  @Field(() => String)
+  accountName: string;
+
+  @Field(() => String)
+  bankName: string;
+
+  @Field(() => [CreateClassScheduleInput])
+  classSchedulesInput: CreateClassScheduleInput[];
+
+  @Field(() => [ImageInput])
   imageInput: ImageInput[];
 }

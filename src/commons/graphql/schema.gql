@@ -40,6 +40,9 @@ type Class {
   address_category: String!
   total_time: String!
   content: String!
+  accountNum: String!
+  accountName: String!
+  bankName: String!
   createdAt: DateTime!
   deletedAt: DateTime!
   user_: User!
@@ -52,6 +55,13 @@ type Magazine {
   createdAt: DateTime!
   deletedAt: DateTime!
   user_: User!
+}
+
+type ClassSchedule {
+  cs_id: String!
+  date: String!
+  remain: Int!
+  class_: Class!
 }
 
 type ClassReview {
@@ -80,25 +90,33 @@ enum ClASSAD_STATUS_ENUM {
   CANCEL
 }
 
-type ClassSchedule {
-  cs_id: String!
-  date: String!
-  remain: Int!
-  class_: Class!
-}
-
 type Reservation {
   res_id: String!
   res_date: String!
   personnel: Int!
+  status: RESERVATION_STATUS_ENUM!
   user_: User!
   class_: Class!
+}
+
+enum RESERVATION_STATUS_ENUM {
+  COMPLETE
+  WAITING
 }
 
 type Wishlist {
   wishlist_id: String!
   user_: User!
   class_: Class!
+}
+
+type BoardReview {
+  br_id: String!
+  content: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  user_: User!
+  board_: Board!
 }
 
 type Query {
@@ -110,10 +128,11 @@ type Query {
   fetchClasses(category: String!, address_category: String!, search: String!): [Class!]!
   fetchClassesAd(category: String!, address_category: String!, search: String!): [Class!]!
   fetchClassDetail(class_id: String!): Class!
-  fetchClassReivews(class_id: String!): [ClassReview!]!
+  fetchClassReviews(class_id: String!): [ClassReview!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
   fetchReservationsOfUser: [Reservation!]!
   fetchReservationsOfClass(class_id: String!): [Reservation!]!
+  fetchBoardReviews(board_id: String!): [BoardReview!]!
 }
 
 type Mutation {
@@ -133,13 +152,20 @@ type Mutation {
   deleteClassReview(cr_id: String!): Boolean!
   createClassAd(createClassAdInput: CreateClassAdInput!): Class_Ad!
   cancelClassAd(createClassAdInput: CreateClassAdInput!): Class_Ad!
-  createClassSchedule(createClassScheduleInput: CreateClassScheduleInput!): String!
   updateClassSchedule(updateClassScheduleInput: UpdateClassScheduleInput!): Boolean!
   deleteClassSchedule(cs_id: String!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   createReservation(createReservationInput: CreateReservationInput!): String!
+  deleteReservation(res_id: String!): Boolean!
   createWishlist(class_id: String!): Wishlist!
   deleteWishlist(wishlist_id: String!): Boolean!
+  createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): BoardReview!
+  updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
+  deleteBoardReview(br_id: String!): Boolean!
+  createImage(imageInput: [ImageInput!]!, class_: String!, board_: String!, magazine_: String!): [String!]!
+  login(email: String!, pwd: String!): String!
+  logout: String!
+  restoreAccessToken: String!
 }
 
 input CreateUserInput {
@@ -188,7 +214,16 @@ input CreateClassInput {
   category: String!
   total_time: String!
   content: String!
-  imageInput: [ImageInput!]
+  accountNum: String!
+  accountName: String!
+  bankName: String!
+  classSchedulesInput: [CreateClassScheduleInput!]!
+  imageInput: [ImageInput!]!
+}
+
+input CreateClassScheduleInput {
+  date: String!
+  remain: Int!
 }
 
 input UpdateClassInput {
@@ -202,7 +237,8 @@ input UpdateClassInput {
   category: String!
   total_time: String!
   content: String!
-  imageInput: [ImageInput!]
+  classSchedulesInput: [CreateClassScheduleInput!]!
+  imageInput: [ImageInput!]!
 }
 
 input CreateClassReviewInput {
@@ -224,12 +260,6 @@ input CreateClassAdInput {
   class_id: String!
 }
 
-input CreateClassScheduleInput {
-  class_id: String!
-  date: String!
-  remain: Int!
-}
-
 input UpdateClassScheduleInput {
   cs_id: String!
   date: String!
@@ -243,4 +273,14 @@ input CreateReservationInput {
   class_id: String!
   res_date: String!
   personnel: Int!
+}
+
+input CreateBoardReviewInput {
+  content: String!
+  board_id: String!
+}
+
+input UpdateBoardReviewInput {
+  br_id: String!
+  content: String!
 }
