@@ -163,6 +163,9 @@ type Mutation {
   updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
   deleteBoardReview(br_id: String!): Boolean!
   createImage(imageInput: [ImageInput!]!, class_: String!, board_: String!, magazine_: String!): [String!]!
+  login(email: String!, pwd: String!): String!
+  logout: String!
+  restoreAccessToken: String!
 }
 
 input CreateUserInput {
