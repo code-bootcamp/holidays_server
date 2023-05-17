@@ -64,6 +64,18 @@ export class Class {
   @Field(() => String)
   content: string;
 
+  @Column()
+  @Field(() => String)
+  accountNum: string;
+
+  @Column()
+  @Field(() => String)
+  accountName: string;
+
+  @Column()
+  @Field(() => String)
+  bankName: string;
+
   @CreateDateColumn()
   @Field(() => Date)
   createdAt: Date;

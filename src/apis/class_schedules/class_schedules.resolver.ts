@@ -22,15 +22,17 @@ export class ClassSchedulesResolver {
     });
   }
 
-  @Mutation(() => String)
-  createClassSchedule(
-    @Args('createClassScheduleInput')
-    createClassScheduleInput: CreateClassScheduleInput,
-  ): Promise<string> {
-    return this.classSchedulesService.create({
-      createClassScheduleInput,
-    });
-  }
+  // @Mutation(() => String)
+  // createClassSchedule(
+  //   @Args('createClassScheduleInput')
+  //   createClassScheduleInput: CreateClassScheduleInput,
+  //   @Args('class_id') class_id: string,
+  // ): Promise<string> {
+  //   return this.classSchedulesService.create({
+  //     createClassScheduleInput,
+  //     class_id,
+  //   });
+  // }
 
   @Mutation(() => Boolean)
   updateClassSchedule(

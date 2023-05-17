@@ -17,12 +17,11 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
     console.log(profile);
 
     return {
-      user_name: profile.displayName,
-      user_email: profile.emails[0].value,
-      user_address: 'social',
-      user_phone: 'social',
-      user_pwd: 'social',
-      user_ssn: 'social',
+      name: profile.displayName,
+      email: profile.emails[0].value,
+      phone: 'social',
+      pwd: 'social',
+      birth_date: 'social',
     };
   }
 }

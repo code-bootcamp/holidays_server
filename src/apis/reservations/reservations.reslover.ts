@@ -44,6 +44,14 @@ export class ReservationsResolver {
     });
   }
 
+  @UseGuards(GqlAuthGuard('access'))
+  @Mutation(() => Boolean)
+  deleteReservation(
+    @Args('res_id') res_id: string, //
+  ): Promise<boolean> {
+    return this.reservationsService.delete({ res_id });
+  }
+
   //   @UseGuards(GqlAuthGuard('access'))
   //   @Mutation(() => Board)
   //   createBoard(

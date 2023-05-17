@@ -14,7 +14,7 @@ export class ClassReviewsResolver {
   ) {}
 
   @Query(() => [ClassReview])
-  fetchClassReivews(
+  fetchClassReviews(
     @Args('class_id') class_id: string, //
   ): Promise<ClassReview[]> {
     return this.classReviewsService.findAllById({ class_id });
@@ -37,9 +37,9 @@ export class ClassReviewsResolver {
   @Mutation(() => ClassReview)
   updateClassReview(
     @Args('updateClassReviewInput')
-    updateClassReivewInput: UpdateClassReviewInput, //
+    updateClassReviewInput: UpdateClassReviewInput, //
   ) {
-    return this.classReviewsService.update({ updateClassReivewInput });
+    return this.classReviewsService.update({ updateClassReviewInput });
   }
 
   @UseGuards(GqlAuthGuard('access'))

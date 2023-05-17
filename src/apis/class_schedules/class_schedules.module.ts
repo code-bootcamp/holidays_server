@@ -15,5 +15,9 @@ import { ClassSchedule } from './entities/class_schedule.entity';
     ClassSchedulesResolver, //
     ClassSchedulesService,
   ],
+
+  exports: [
+    ClassSchedulesService, //
+  ],
 })
 export class ClassSchedulesModule {}
