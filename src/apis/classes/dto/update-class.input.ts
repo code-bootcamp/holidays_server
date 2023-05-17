@@ -34,6 +34,15 @@ export class UpdateClassInput {
   @Field(() => String)
   content: string;
 
+  @Field(() => String)
+  accountNum: string;
+
+  @Field(() => String)
+  accountName: string;
+
+  @Field(() => String)
+  bankName: string;
+
   @Field(() => [CreateClassScheduleInput])
   classSchedulesInput: CreateClassScheduleInput;
 

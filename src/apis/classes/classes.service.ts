@@ -4,6 +4,15 @@ import { Repository } from 'typeorm';
 import { ClassSchedulesService } from '../class_schedules/class_schedules.service';
 import { ImagesService } from '../images/images.service';
 import { Class } from './entities/class.entity';
+import {
+  IClassesServiceCreate,
+  IClassesServiceDelete,
+  IClassesServiceFindAllByFilter,
+  IClassesServiceFindAllByFilterWithAd,
+  IClassesServiceFindOneById,
+  IClassesServiceUpdate,
+  IClassesServiceUpdateIsAd,
+} from './interfaces/classes-service.interface';
 
 @Injectable()
 export class ClassesService {
@@ -16,28 +25,58 @@ export class ClassesService {
     private readonly imagesService: ImagesService,
   ) {}
 
-  findAllByFilter({ category, address_category, search }): Promise<Class[]> {
-    return this.classesRepository.find();
-  }
-
-  findAllByFilterWithAd({
+  async findAllByFilter({
     category,
     address_category,
     search,
-  }): Promise<Class[]> {
-    return this.classesRepository.find();
+  }: IClassesServiceFindAllByFilter): Promise<Class[]> {
+    const result = await this.classesRepository
+      .createQueryBuilder('class')
+      .select('*')
+      // .from('class', 'c')
+      .where('class.category = :category', { category })
+      .andWhere('class.address_category = :address_category', {
+        address_category,
+      })
+      .andWhere('title LIKE "%":search"%"', { search })
+      .orderBy('class.createdAt')
+      .getRawMany();
+    return result;
   }
 
-  findOneById({ user_id, class_id }): Promise<Class> {
+  async findAllByFilterWithAd({
+    category,
+    address_category,
+    search,
+  }: IClassesServiceFindAllByFilterWithAd): Promise<Class[]> {
+    const result = await this.classesRepository
+      .createQueryBuilder('class')
+      .select('*')
+      // .from('class', 'c')
+      .where('class.category = :category', { category })
+      .andWhere('class.address_category = :address_category', {
+        address_category,
+      })
+      .andWhere('title LIKE "%":search"%"', { search })
+      .andWhere('is_ad = 1')
+      .orderBy('class.createdAt')
+      .getRawMany();
+    return result;
+  }
+
+  findOneById({ class_id }: IClassesServiceFindOneById): Promise<Class> {
     return this.classesRepository.findOne({ where: { class_id } });
   }
 
-  async create({ createClassInput, user_id }) {
+  async create({
+    createClassInput,
+    user_id,
+  }: IClassesServiceCreate): Promise<Class> {
     const { classSchedulesInput, imageInput, ...classInput } = createClassInput;
 
     const result = await this.classesRepository.save({
       ...classInput,
-      user_: user_id,
+      user_: { user_id },
     });
 
     const csResult = await this.classSchedulesService.create({
@@ -55,28 +94,32 @@ export class ClassesService {
     return result;
   }
 
-  update({ updateClassInput, user_id }) {
-    const test = {
-      title: '테스트',
-      content_summary: '테스트',
-      price: 10000,
-      class_mNum: 15,
-      address: '서울시 구로구',
-      address_detail: '코드캠프 3층',
-      category: '여가',
-      total_time: '120분',
-      content: '테스트',
-      url: ['테스트', '테스트2'],
-      type: [1, 2],
-      is_main: [1, 2],
-      date: ['5/8', '5/9'], // 일정
-      reamin: [10, 11], // 남은인원
-    };
+  async update({ updateClassInput }: IClassesServiceUpdate) {
+    const { classSchedulesInput, imageInput, ...classInput } = updateClassInput;
 
-    return test;
+    const result = await this.classesRepository.update(
+      { class_id: classInput.class_id },
+      {
+        ...classInput,
+      },
+    );
+
+    const csResult = await this.classSchedulesService.update({
+      classSchedulesInput,
+      class_id: classInput.class_id,
+    });
+
+    await this.imagesService.update({
+      imageInput,
+      class_: classInput.class_id,
+      board_: 'null',
+      magazine_: 'null',
+    });
+
+    return result;
   }
 
-  async delete({ class_id }): Promise<boolean> {
+  async delete({ class_id }: IClassesServiceDelete): Promise<boolean> {
     const result = await this.classesRepository.softDelete({ class_id });
 
     return result.affected ? true : false;
@@ -84,5 +127,14 @@ export class ClassesService {
 
   async sendClassInquiry({ user_id, class_id, content }): Promise<string> {
     return await '문의 전송 완료!';
+  }
+
+  async updateIsAd({ class_id }: IClassesServiceUpdateIsAd): Promise<boolean> {
+    const result = await this.classesRepository.update(
+      { class_id },
+      { is_ad: 1 },
+    );
+
+    return result.affected ? true : false;
   }
 }

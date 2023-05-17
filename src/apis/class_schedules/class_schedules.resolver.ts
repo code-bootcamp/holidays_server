@@ -17,7 +17,7 @@ export class ClassSchedulesResolver {
   fetchClassSchedules(
     @Args('class_id') class_id: string, //
   ): Promise<ClassSchedule[]> {
-    return this.classSchedulesService.findAllByUser({
+    return this.classSchedulesService.findAllByClass({
       class_id,
     });
   }
@@ -34,18 +34,18 @@ export class ClassSchedulesResolver {
   //   });
   // }
 
-  @Mutation(() => Boolean)
-  updateClassSchedule(
-    @Args('updateClassScheduleInput')
-    updateClassScheduleInput: UpdateClassScheduleInput, //
-  ): Promise<boolean> {
-    return this.classSchedulesService.update({ updateClassScheduleInput });
-  }
+  // @Mutation(() => Boolean)
+  // updateClassSchedule(
+  //   @Args('updateClassScheduleInput')
+  //   updateClassScheduleInput: UpdateClassScheduleInput, //
+  // ): Promise<boolean> {
+  //   return this.classSchedulesService.update({ updateClassScheduleInput });
+  // }
 
-  @Mutation(() => Boolean)
-  deleteClassSchedule(
-    @Args('cs_id') cs_id: string, //
-  ): Promise<boolean> {
-    return this.classSchedulesService.delete({ cs_id });
-  }
+  // @Mutation(() => Boolean)
+  // deleteClassSchedule(
+  //   @Args('cs_id') cs_id: string, //
+  // ): Promise<boolean> {
+  //   return this.classSchedulesService.delete({ cs_id });
+  // }
 }

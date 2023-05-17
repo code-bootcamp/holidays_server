@@ -43,6 +43,7 @@ type Class {
   accountNum: String!
   accountName: String!
   bankName: String!
+  is_ad: Int!
   createdAt: DateTime!
   deletedAt: DateTime!
   user_: User!
@@ -185,7 +186,6 @@ input CreateBoardInput {
   title: String!
   content: String!
   email: String!
-  birth_date: String!
   imageInput: [ImageInput!]
 }
 
@@ -212,6 +212,7 @@ input CreateClassInput {
   address: String!
   address_detail: String!
   category: String!
+  address_category: String!
   total_time: String!
   content: String!
   accountNum: String!
@@ -237,6 +238,9 @@ input UpdateClassInput {
   category: String!
   total_time: String!
   content: String!
+  accountNum: String!
+  accountName: String!
+  bankName: String!
   classSchedulesInput: [CreateClassScheduleInput!]!
   imageInput: [ImageInput!]!
 }

@@ -16,8 +16,8 @@ import { ClassSchedule } from './entities/class_schedule.entity';
     ClassSchedulesService,
   ],
 
-  exports: [
-    ClassSchedulesService, //
-  ],
+  // exports: [
+  //   ClassSchedulesService, //
+  // ],
 })
 export class ClassSchedulesModule {}

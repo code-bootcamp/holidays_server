@@ -53,25 +53,17 @@ export class ClassesResolver {
 
   @UseGuards(GqlAuthGuard('access'))
   @Query(() => Class)
-  fetchClassDetail(
-    @Context() context: IContext,
-    @Args('class_id') class_id: string,
-  ): Promise<Class> {
+  fetchClassDetail(@Args('class_id') class_id: string): Promise<Class> {
     return this.classesService.findOneById({
       class_id,
-      user_id: context.req.user.user_id,
     });
   }
 
   @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => Class)
-  updateClass(
-    @Context() context: IContext,
-    @Args('updateClassInput') updateClassInput: UpdateClassInput,
-  ) {
+  updateClass(@Args('updateClassInput') updateClassInput: UpdateClassInput) {
     return this.classesService.update({
       updateClassInput,
-      user_id: context.req.user.user_id,
     });
   }
 

@@ -26,6 +26,9 @@ export class CreateClassInput {
   category: string;
 
   @Field(() => String)
+  address_category: string;
+
+  @Field(() => String)
   total_time: string;
 
   @Field(() => String)

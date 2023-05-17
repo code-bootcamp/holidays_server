@@ -120,8 +120,15 @@ export class AuthService {
       { id: user.user_id },
       { secret: process.env.JWT_REFRESH_KEY, expiresIn: '2w' },
     );
-
+    //개발
     res.setHeader('set-Cookie', `refreshToken=${refreshToken};  path=/;`);
+
+    // 배포
+    // res.setHeader(
+    //   'set-Cookie',
+    //   `refreshToken=${refreshToken};  path=/; domain=.happyholidays-server.site; SameSite=None; Secure; httpOnly;`,
+    // );
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   }
 
   getAccessToken({ user }: IAuthServiceGetAccessToken): string {
