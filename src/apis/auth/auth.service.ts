@@ -119,14 +119,20 @@ export class AuthService {
       { secret: process.env.JWT_REFRESH_KEY, expiresIn: '2w' },
     );
     //개발
-    res.setHeader('set-Cookie', `refreshToken=${refreshToken};  path=/;`);
+    // res.setHeader('set-Cookie', `refreshToken=${refreshToken};  path=/;`);
 
     // 배포
-    // res.setHeader(
-    //   'set-Cookie',
-    //   `refreshToken=${refreshToken};  path=/; domain=.happyholidays-server.site; SameSite=None; Secure; httpOnly;`,
-    // );
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    const originList = [
+      'http://localhost:3000',
+      'https://happyholidays.site',
+      'https://happyholidays-server.site',
+    ];
+
+    res.setHeader(
+      'set-Cookie',
+      `refreshToken=${refreshToken};  path=/; domain=.happyholidays-server.site; SameSite=None; Secure; httpOnly;`,
+    );
+    res.setHeader('Access-Control-Allow-Origin', originList);
   }
 
   getAccessToken({ user }: IAuthServiceGetAccessToken): string {

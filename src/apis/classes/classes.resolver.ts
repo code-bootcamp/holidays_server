@@ -47,11 +47,26 @@ export class ClassesResolver {
 
   @Query(() => [Class])
   fetchClassesAd(
-    @Args({ name: 'category', type: () => String, nullable: true })
+    @Args({
+      name: 'category',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
     category: string,
-    @Args({ name: 'address_category', type: () => String, nullable: true })
+    @Args({
+      name: 'address_category',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
     address_category: string,
-    @Args({ name: 'search', type: () => String, nullable: true })
+    @Args({
+      name: 'search',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
     search: string,
   ): Promise<Class[]> {
     return this.classesService.findAllByFilterWithAd({

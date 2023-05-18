@@ -14,6 +14,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://127.0.0.1:3000',
+      'https://happyholidays.site',
       'https://happyholidays-server.site/',
     ],
     credentials: true,
