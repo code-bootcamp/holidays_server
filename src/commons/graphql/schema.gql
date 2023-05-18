@@ -153,8 +153,6 @@ type Mutation {
   deleteClassReview(cr_id: String!): Boolean!
   createClassAd(createClassAdInput: CreateClassAdInput!): Class_Ad!
   cancelClassAd(createClassAdInput: CreateClassAdInput!): Class_Ad!
-  updateClassSchedule(updateClassScheduleInput: UpdateClassScheduleInput!): Boolean!
-  deleteClassSchedule(cs_id: String!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   createReservation(createReservationInput: CreateReservationInput!): String!
   deleteReservation(res_id: String!): Boolean!
@@ -262,12 +260,6 @@ input CreateClassAdInput {
   amount: Int!
   method: String!
   class_id: String!
-}
-
-input UpdateClassScheduleInput {
-  cs_id: String!
-  date: String!
-  remain: Int!
 }
 
 """The `Upload` scalar type represents a file upload."""

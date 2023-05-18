@@ -8,12 +8,12 @@ export class CreateUserInput {
   @Field(() => String)
   pwd: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   phone: string;
 
   @Field(() => String)
   email: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   birth_date: string;
 }

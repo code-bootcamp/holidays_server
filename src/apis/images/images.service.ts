@@ -70,22 +70,15 @@ export class ImagesService {
     return image_id;
   }
 
-  async deleteAll({ image_ids }): Promise<void> {
-    await this.imagesRepository.delete({ image_id: image_ids[0] });
-  }
-
   async update({ imageInput, class_, board_, magazine_ }): Promise<void> {
     console.log('업데이트시작');
     const imageAllIdResults = await this.findAllClassId({
       class_,
     });
 
-    const image_ids = [];
     for (let i = 0; i < imageAllIdResults.length; i++) {
-      image_ids.push(imageAllIdResults[i].image_id);
+      this.imagesRepository.delete({ image_id: imageAllIdResults[i].image_id });
     }
-
-    await this.deleteAll({ image_ids });
 
     await this.bulkInsert({ imageInput, class_, board_, magazine_ });
   }
