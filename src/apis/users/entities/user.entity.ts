@@ -20,7 +20,7 @@ export class User {
   @Column()
   pwd: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   phone: string;
 
@@ -28,7 +28,7 @@ export class User {
   @Field(() => String)
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   birth_date: string;
 

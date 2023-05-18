@@ -33,14 +33,15 @@ export class ClassesService {
     const result = await this.classesRepository
       .createQueryBuilder('class')
       .select('*')
-      // .from('class', 'c')
-      .where('class.category = :category', { category })
-      .andWhere('class.address_category = :address_category', {
+      .where('1=1')
+      .andWhere('category LIKE "%":category"%"', { category })
+      .andWhere('address_category LIKE "%":address_category"%"', {
         address_category,
       })
       .andWhere('title LIKE "%":search"%"', { search })
       .orderBy('class.createdAt')
       .getRawMany();
+
     return result;
   }
 
@@ -52,9 +53,9 @@ export class ClassesService {
     const result = await this.classesRepository
       .createQueryBuilder('class')
       .select('*')
-      // .from('class', 'c')
-      .where('class.category = :category', { category })
-      .andWhere('class.address_category = :address_category', {
+      .where('1=1')
+      .andWhere('category LIKE "%":category"%"', { category })
+      .andWhere('address_category LIKE "%":address_category"%"', {
         address_category,
       })
       .andWhere('title LIKE "%":search"%"', { search })
@@ -65,7 +66,10 @@ export class ClassesService {
   }
 
   findOneById({ class_id }: IClassesServiceFindOneById): Promise<Class> {
-    return this.classesRepository.findOne({ where: { class_id } });
+    return this.classesRepository.findOne({
+      where: { class_id },
+      relations: ['user_'],
+    });
   }
 
   async create({

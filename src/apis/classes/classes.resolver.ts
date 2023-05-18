@@ -15,9 +15,28 @@ export class ClassesResolver {
 
   @Query(() => [Class])
   fetchClasses(
-    @Args('category') category: string,
-    @Args('address_category') address_category: string,
-    @Args('search') search: string,
+    // @Args('category') category: string,
+    @Args({
+      name: 'category',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
+    category: string,
+    @Args({
+      name: 'address_category',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
+    address_category: string,
+    @Args({
+      name: 'search',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
+    search: string,
   ): Promise<Class[]> {
     return this.classesService.findAllByFilter({
       category,
@@ -28,9 +47,12 @@ export class ClassesResolver {
 
   @Query(() => [Class])
   fetchClassesAd(
-    @Args('category') category: string,
-    @Args('address_category') address_category: string,
-    @Args('search') search: string,
+    @Args({ name: 'category', type: () => String, nullable: true })
+    category: string,
+    @Args({ name: 'address_category', type: () => String, nullable: true })
+    address_category: string,
+    @Args({ name: 'search', type: () => String, nullable: true })
+    search: string,
   ): Promise<Class[]> {
     return this.classesService.findAllByFilterWithAd({
       category,
@@ -67,6 +89,7 @@ export class ClassesResolver {
     });
   }
 
+  @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => Boolean)
   deleteClass(
     @Args('class_id') class_id: string, //
