@@ -39,7 +39,7 @@ export class ClassesService {
         address_category,
       })
       .andWhere('title LIKE "%":search"%"', { search })
-      .orderBy('class.createdAt')
+      .orderBy('class.createdAt', 'DESC')
       .getRawMany();
 
     return result;
@@ -60,7 +60,7 @@ export class ClassesService {
       })
       .andWhere('title LIKE "%":search"%"', { search })
       .andWhere('is_ad = 1')
-      .orderBy('class.createdAt')
+      .orderBy('class.createdAt', 'DESC')
       .getRawMany();
     return result;
   }
