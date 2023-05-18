@@ -127,7 +127,7 @@ type Query {
   fetchBoards: [Board!]!
   fetchBoardDetail(board_id: String!): Board!
   fetchClasses(category: String = "", address_category: String = "", search: String = ""): [Class!]!
-  fetchClassesAd(category: String, address_category: String, search: String): [Class!]!
+  fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [Class!]!
   fetchClassDetail(class_id: String!): Class!
   fetchClassReviews(class_id: String!): [ClassReview!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
