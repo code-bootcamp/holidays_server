@@ -7,9 +7,9 @@ export interface IClassesServiceCreate {
 }
 
 export interface IClassesServiceFindAllByFilter {
-  category: string;
-  address_category: string;
-  search: string;
+  category?: string;
+  address_category?: string;
+  search?: string;
 }
 
 export interface IClassesServiceFindAllByFilterWithAd {
