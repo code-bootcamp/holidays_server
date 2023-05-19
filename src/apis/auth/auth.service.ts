@@ -136,6 +136,7 @@ export class AuthService {
     );
 
     if (originList.includes(origin)) {
+      console.log(origin);
       res.setHeader('Access-Control-Allow-Origin', origin);
     }
   }

@@ -65,6 +65,29 @@ type ClassSchedule {
   class_: Class!
 }
 
+type FetchClassesPopular {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  url: String!
+  row_count: Int!
+}
+
+type FetchClasses {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  url: String!
+}
+
 type ClassReview {
   cr_id: String!
   content: String!
@@ -126,8 +149,10 @@ type Query {
   fetchBoardsOfMine: [Board!]!
   fetchBoards: [Board!]!
   fetchBoardDetail(board_id: String!): Board!
-  fetchClasses(category: String = "", address_category: String = "", search: String = ""): [Class!]!
-  fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [Class!]!
+  fetchClasses(category: String = "", address_category: String = "", search: String = "", page: Float!): [FetchClasses!]!
+  fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Float!): [FetchClassesPopular!]!
+  fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [FetchClasses!]!
+  fetchClassesOfMine: [FetchClasses!]!
   fetchClassDetail(class_id: String!): Class!
   fetchClassReviews(class_id: String!): [ClassReview!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
