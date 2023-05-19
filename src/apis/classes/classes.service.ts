@@ -6,6 +6,7 @@ import { ImagesService } from '../images/images.service';
 import { FetchClassesPopular } from './dto/fetch-classes-popular.output';
 import { FetchClasses } from './dto/fetch-classes.output';
 import { Class } from './entities/class.entity';
+import coolSms from 'coolsms-node-sdk';
 
 import {
   IClassesServiceCreate,
@@ -16,6 +17,8 @@ import {
   IClassesServiceUpdate,
   IClassesServiceUpdateIsAd,
 } from './interfaces/classes-service.interface';
+
+const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
 @Injectable()
 export class ClassesService {
@@ -196,7 +199,22 @@ export class ClassesService {
   }
 
   async sendClassInquiry({ user_id, class_id, content }): Promise<string> {
-    return await '문의 전송 완료!';
+    const phone = await this.classesRepository
+      .createQueryBuilder('class')
+      .select('u.phone')
+      .innerJoin('user', 'u', 'class.user_userId = u.user_id')
+      .where('1=1')
+      .andWhere('class.class_id = :class_id', { class_id })
+      .getRawOne();
+
+    const result = await messageService.sendOne({
+      to: phone,
+      from: process.env.SMS_SENDER,
+      text: content,
+      autoTypeDetect: true,
+    });
+
+    return '문의 전송 완료!';
   }
 
   async updateIsAd({ class_id }: IClassesServiceUpdateIsAd): Promise<boolean> {
