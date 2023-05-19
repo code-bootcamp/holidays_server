@@ -10,6 +10,7 @@ export interface IClassesServiceFindAllByFilter {
   category?: string;
   address_category?: string;
   search?: string;
+  page: number;
 }
 
 export interface IClassesServiceFindAllByFilterWithAd {
@@ -32,4 +33,14 @@ export interface IClassesServiceDelete {
 
 export interface IClassesServiceUpdateIsAd {
   class_id: string;
+}
+
+export interface IClassesServicePopular {
+  title: string;
+  content_summary: string;
+  price: number;
+  total_time: string;
+  address: string;
+  address_detail: string;
+  row_count: number;
 }

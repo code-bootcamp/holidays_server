@@ -3,7 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClassSchedulesService } from '../class_schedules/class_schedules.service';
 import { ImagesService } from '../images/images.service';
+import { FetchClassesPopular } from './dto/fetch-classes-popular.output';
+import { FetchClasses } from './dto/fetch-classes.output';
 import { Class } from './entities/class.entity';
+
 import {
   IClassesServiceCreate,
   IClassesServiceDelete,
@@ -29,17 +32,62 @@ export class ClassesService {
     category,
     address_category,
     search,
-  }: IClassesServiceFindAllByFilter): Promise<Class[]> {
+    page,
+  }: IClassesServiceFindAllByFilter): Promise<FetchClasses[]> {
+    const pageSize = 10;
+
     const result = await this.classesRepository
       .createQueryBuilder('class')
       .select('*')
+      .innerJoin('image', 'i', 'class.class_id = i.class_classId')
       .where('1=1')
       .andWhere('category LIKE "%":category"%"', { category })
       .andWhere('address_category LIKE "%":address_category"%"', {
         address_category,
       })
       .andWhere('title LIKE "%":search"%"', { search })
+      .andWhere('i.is_main = 1')
       .orderBy('class.createdAt', 'DESC')
+      .limit(pageSize)
+      .offset(pageSize * (page - 1))
+      .getRawMany();
+
+    return result;
+  }
+
+  async findAllByFilterWithPopular({
+    category,
+    address_category,
+    search,
+    page,
+  }: IClassesServiceFindAllByFilter): Promise<FetchClassesPopular[]> {
+    const pageSize = 10;
+
+    const result = await this.classesRepository
+      .createQueryBuilder('class')
+      .select([
+        'class.title',
+        'class.content_summary',
+        'class.price',
+        'class.total_time',
+        'class.address',
+        'class.address_detail',
+        'i.url',
+        'count(w.wishlist_id) AS row_count',
+      ])
+      .innerJoin('image', 'i', 'class.class_id = i.class_classId')
+      .innerJoin('wishlist', 'w', 'class.class_id = w.class_classId')
+      .where('1=1')
+      .andWhere('category LIKE "%":category"%"', { category })
+      .andWhere('address_category LIKE "%":address_category"%"', {
+        address_category,
+      })
+      .andWhere('title LIKE "%":search"%"', { search })
+      .andWhere('i.is_main = 1')
+      .groupBy('class.class_id')
+      .orderBy('row_count', 'DESC')
+      .limit(pageSize)
+      .offset(pageSize * (page - 1))
       .getRawMany();
 
     return result;
@@ -49,19 +97,37 @@ export class ClassesService {
     category,
     address_category,
     search,
-  }: IClassesServiceFindAllByFilterWithAd): Promise<Class[]> {
+  }: IClassesServiceFindAllByFilterWithAd): Promise<FetchClasses[]> {
     const result = await this.classesRepository
       .createQueryBuilder('class')
       .select('*')
+      .innerJoin('image', 'i', 'class.class_id = i.class_classId')
       .where('1=1')
       .andWhere('category LIKE "%":category"%"', { category })
       .andWhere('address_category LIKE "%":address_category"%"', {
         address_category,
       })
       .andWhere('title LIKE "%":search"%"', { search })
+      .andWhere('i.is_main = 1')
       .andWhere('is_ad = 1')
+      .orderBy('RAND()')
+      .limit(2)
+      .getRawMany();
+    return result;
+  }
+
+  async findAllOfMine({ user_id }): Promise<FetchClasses[]> {
+    const result = await this.classesRepository
+      .createQueryBuilder('class')
+      .select('*')
+      .innerJoin('image', 'i', 'class.class_id = i.class_classId')
+      .innerJoin('user', 'u', 'class.user_userId = u.user_id')
+      .where('1=1')
+      .andWhere('i.is_main = 1')
+      .andWhere('u.user_id = :user_id', { user_id })
       .orderBy('class.createdAt', 'DESC')
       .getRawMany();
+
     return result;
   }
 

@@ -12,8 +12,13 @@ export class ImagesService {
   ) {}
 
   async findAllClassId({ class_ }): Promise<Image[]> {
+    // const results = await this.imagesRepository.find({
+    //   where: { class_ },
+    //   relations: ['class_'],
+    // });
+
     const results = await this.imagesRepository.find({
-      where: { class_ },
+      relations: ['class_'],
     });
     return results;
   }

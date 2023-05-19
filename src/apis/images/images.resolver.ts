@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { Query, UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { IContext } from 'src/commons/interfaces/context';
 
@@ -32,4 +32,11 @@ export class ImagesResolver {
       magazine_,
     });
   }
+
+  // @Query(() => [Image])
+  // fetchImage(
+  //   @Args('class_') class_: string, //
+  // ) {
+  //   return this.imagesService.findAllClassId({ class_ });
+  // }
 }

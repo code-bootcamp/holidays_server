@@ -4,6 +4,8 @@ import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { ClassesService } from './classes.service';
 import { CreateClassInput } from './dto/create-class.input';
+import { FetchClassesPopular } from './dto/fetch-classes-popular.output';
+import { FetchClasses } from './dto/fetch-classes.output';
 import { UpdateClassInput } from './dto/update-class.input';
 import { Class } from './entities/class.entity';
 
@@ -13,7 +15,7 @@ export class ClassesResolver {
     private readonly classesService: ClassesService, //
   ) {}
 
-  @Query(() => [Class])
+  @Query(() => [FetchClasses])
   fetchClasses(
     // @Args('category') category: string,
     @Args({
@@ -37,15 +39,51 @@ export class ClassesResolver {
       defaultValue: '',
     })
     search: string,
-  ): Promise<Class[]> {
+    @Args('page') page: number,
+  ): Promise<FetchClasses[]> {
     return this.classesService.findAllByFilter({
       category,
       address_category,
       search,
+      page,
     });
   }
 
-  @Query(() => [Class])
+  @Query(() => [FetchClassesPopular])
+  fetchClassesPopular(
+    // @Args('category') category: string,
+    @Args({
+      name: 'category',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
+    category: string,
+    @Args({
+      name: 'address_category',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
+    address_category: string,
+    @Args({
+      name: 'search',
+      type: () => String,
+      nullable: true,
+      defaultValue: '',
+    })
+    search: string,
+    @Args('page') page: number,
+  ): Promise<FetchClassesPopular[]> {
+    return this.classesService.findAllByFilterWithPopular({
+      category,
+      address_category,
+      search,
+      page,
+    });
+  }
+
+  @Query(() => [FetchClasses])
   fetchClassesAd(
     @Args({
       name: 'category',
@@ -68,11 +106,21 @@ export class ClassesResolver {
       defaultValue: '',
     })
     search: string,
-  ): Promise<Class[]> {
+  ): Promise<FetchClasses[]> {
     return this.classesService.findAllByFilterWithAd({
       category,
       address_category,
       search,
+    });
+  }
+
+  @UseGuards(GqlAuthGuard('access'))
+  @Query(() => [FetchClasses])
+  fetchClassesOfMine(
+    @Context() context: IContext, //
+  ): Promise<FetchClasses[]> {
+    return this.classesService.findAllOfMine({
+      user_id: context.req.user.user_id,
     });
   }
 
