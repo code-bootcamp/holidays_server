@@ -18,6 +18,7 @@ export interface IAuthServiceGetAccessToken {
 export interface IAuthServiceSetRefreshToken {
   user: User;
   res: Response;
+  req: Request;
 }
 
 export interface IAuthServiceRestoreAccessToken {

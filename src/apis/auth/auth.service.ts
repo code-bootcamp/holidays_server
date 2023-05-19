@@ -38,7 +38,7 @@ export class AuthService {
     if (!isAuth)
       throw new UnprocessableEntityException('비밀번호가 일치하지 않습니다.');
 
-    this.setRefreshToken({ user, res: context.res });
+    this.setRefreshToken({ user, res: context.res, req: context.req });
 
     return this.getAccessToken({ user });
   }
@@ -105,7 +105,7 @@ export class AuthService {
       user = await this.usersService.create({ createUserInput });
     }
     // 3. 회원가입이 돼있다면? 로그인(refreshToken, accessToken 만들어서 브라우저에 전송)
-    this.setRefreshToken({ user, res });
+    this.setRefreshToken({ user, res, req });
     res.redirect('http://localhost:3000/mainPage');
   }
 
@@ -113,7 +113,7 @@ export class AuthService {
     return this.getAccessToken({ user });
   }
 
-  setRefreshToken({ user, res }: IAuthServiceSetRefreshToken): void {
+  setRefreshToken({ user, req, res }: IAuthServiceSetRefreshToken): void {
     const refreshToken = this.jwtService.sign(
       { id: user.user_id },
       { secret: process.env.JWT_REFRESH_KEY, expiresIn: '2w' },
@@ -128,11 +128,16 @@ export class AuthService {
       'https://happyholidays-server.site',
     ];
 
+    const origin = req.headers.origin;
+
     res.setHeader(
       'set-Cookie',
       `refreshToken=${refreshToken};  path=/; domain=.happyholidays-server.site; SameSite=None; Secure; httpOnly;`,
     );
-    res.setHeader('Access-Control-Allow-Origin', originList);
+
+    if (originList.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
   }
 
   getAccessToken({ user }: IAuthServiceGetAccessToken): string {
