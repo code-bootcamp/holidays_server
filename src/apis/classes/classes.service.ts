@@ -69,13 +69,14 @@ export class ClassesService {
     const result = await this.classesRepository
       .createQueryBuilder('class')
       .select([
-        'class.title',
-        'class.content_summary',
-        'class.price',
-        'class.total_time',
-        'class.address',
-        'class.address_detail',
-        'i.url',
+        'class_class_id AS class_id',
+        'class.title AS title',
+        'class.content_summary AS content_summary',
+        'class.price AS price',
+        'class.total_time AS total_time',
+        'class.address AS address',
+        'class.address_detail AS address_detail',
+        'i.url AS url',
         'count(w.wishlist_id) AS row_count',
       ])
       .innerJoin('image', 'i', 'class.class_id = i.class_classId')
@@ -167,7 +168,7 @@ export class ClassesService {
     return result;
   }
 
-  async update({ updateClassInput }: IClassesServiceUpdate) {
+  async update({ updateClassInput }: IClassesServiceUpdate): Promise<boolean> {
     const { classSchedulesInput, imageInput, ...classInput } = updateClassInput;
 
     const result = await this.classesRepository.update(
@@ -189,7 +190,7 @@ export class ClassesService {
       magazine_: 'null',
     });
 
-    return result;
+    return result.affected ? true : false;
   }
 
   async delete({ class_id }: IClassesServiceDelete): Promise<boolean> {
@@ -206,8 +207,6 @@ export class ClassesService {
       .where('1=1')
       .andWhere('class.class_id = :class_id', { class_id })
       .getRawOne();
-
-    console.log(phone.u_phone);
 
     const result = await messageService.sendOne({
       to: phone.u_phone,

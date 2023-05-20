@@ -2,6 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { FetchWishlists } from './dto/fetch-wishlists.output';
 import { Wishlist } from './entities/wishlist.entity';
 import { WishlistsService } from './wishlists.service';
 
@@ -24,9 +25,10 @@ export class WishlistsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
+  @Query(() => [FetchWishlists])
   fetchWishlists(
     @Context() context: IContext, //
-  ) {
+  ): Promise<FetchWishlists[]> {
     return this.wishlistsService.findOneByUserId({
       user_id: context.req.user.user_id,
     });

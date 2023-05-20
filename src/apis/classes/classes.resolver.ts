@@ -147,7 +147,7 @@ export class ClassesResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Class)
+  @Mutation(() => Boolean)
   updateClass(@Args('updateClassInput') updateClassInput: UpdateClassInput) {
     return this.classesService.update({
       updateClassInput,
