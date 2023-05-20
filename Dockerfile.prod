@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:16.14.0
 
 COPY ./package.json /myfolder/
 COPY ./yarn.lock /myfolder/

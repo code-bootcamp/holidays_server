@@ -259,6 +259,7 @@ input UpdateClassInput {
   address: String!
   address_detail: String!
   category: String!
+  address_category: String!
   total_time: String!
   content: String!
   accountNum: String!
