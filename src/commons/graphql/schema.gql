@@ -134,6 +134,17 @@ type Wishlist {
   class_: Class!
 }
 
+type FetchWishlists {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  url: String!
+}
+
 type BoardReview {
   br_id: String!
   content: String!
@@ -158,6 +169,7 @@ type Query {
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
   fetchReservationsOfUser: [Reservation!]!
   fetchReservationsOfClass(class_id: String!): [Reservation!]!
+  fetchWishlists: [FetchWishlists!]!
   fetchBoardReviews(board_id: String!): [BoardReview!]!
 }
 
@@ -170,7 +182,7 @@ type Mutation {
   updateBoard(updateBoardInput: UpdateBoardInput!): Boolean!
   deleteBoard(board_id: String!): Boolean!
   createClass(createClassInput: CreateClassInput!): Class!
-  updateClass(updateClassInput: UpdateClassInput!): Class!
+  updateClass(updateClassInput: UpdateClassInput!): Boolean!
   deleteClass(class_id: String!): Boolean!
   createClassInquiry(class_id: String!, content: String!): String!
   createClassReview(createClassReviewInput: CreateClassReviewInput!): ClassReview!
