@@ -149,8 +149,8 @@ type Query {
   fetchBoardsOfMine: [Board!]!
   fetchBoards: [Board!]!
   fetchBoardDetail(board_id: String!): Board!
-  fetchClasses(category: String = "", address_category: String = "", search: String = "", page: Float!): [FetchClasses!]!
-  fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Float!): [FetchClassesPopular!]!
+  fetchClasses(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClasses!]!
+  fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClassesPopular!]!
   fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [FetchClasses!]!
   fetchClassesOfMine: [FetchClasses!]!
   fetchClassDetail(class_id: String!): Class!
