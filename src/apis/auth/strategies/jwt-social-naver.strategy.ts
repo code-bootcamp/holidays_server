@@ -1,5 +1,5 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-naver-v2';
+import { Strategy } from 'passport-naver';
 
 export class JwtNaverStrategy extends PassportStrategy(Strategy, 'naver') {
   constructor() {
