@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { ClassesService } from './classes.service';
@@ -39,7 +39,8 @@ export class ClassesResolver {
       defaultValue: '',
     })
     search: string,
-    @Args('page') page: number,
+    @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
+    page: number,
   ): Promise<FetchClasses[]> {
     return this.classesService.findAllByFilter({
       category,
@@ -73,7 +74,8 @@ export class ClassesResolver {
       defaultValue: '',
     })
     search: string,
-    @Args('page') page: number,
+    @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
+    page: number,
   ): Promise<FetchClassesPopular[]> {
     return this.classesService.findAllByFilterWithPopular({
       category,

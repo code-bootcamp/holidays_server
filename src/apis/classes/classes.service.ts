@@ -207,8 +207,10 @@ export class ClassesService {
       .andWhere('class.class_id = :class_id', { class_id })
       .getRawOne();
 
+    console.log(phone.u_phone);
+
     const result = await messageService.sendOne({
-      to: phone,
+      to: phone.u_phone,
       from: process.env.SMS_SENDER,
       text: content,
       autoTypeDetect: true,
