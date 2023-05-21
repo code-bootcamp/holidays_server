@@ -4,6 +4,7 @@ import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { ClassesService } from './classes.service';
 import { CreateClassInput } from './dto/create-class.input';
+import { FetchClassesDetail } from './dto/fetch-classes-detail.output';
 import { FetchClassesPopular } from './dto/fetch-classes-popular.output';
 import { FetchClasses } from './dto/fetch-classes.output';
 import { UpdateClassInput } from './dto/update-class.input';
@@ -139,8 +140,10 @@ export class ClassesResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Query(() => Class)
-  fetchClassDetail(@Args('class_id') class_id: string): Promise<Class> {
+  @Query(() => [FetchClassesDetail])
+  fetchClassDetail(
+    @Args('class_id') class_id: string,
+  ): Promise<FetchClassesDetail[]> {
     return this.classesService.findOneById({
       class_id,
     });

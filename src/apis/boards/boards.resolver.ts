@@ -18,7 +18,7 @@ export class BoardsResolver {
   createBoard(
     @Context() context: IContext,
     @Args('createBoardInput') createBoardInput: CreateBoardInput,
-  ) {
+  ): Promise<Board> {
     return this.boardsService.create({
       createBoardInput,
       user_id: context.req.user.user_id,
@@ -30,7 +30,7 @@ export class BoardsResolver {
   fetchBoardsOfMine(
     @Context() context: IContext, //
   ): Promise<Board[]> {
-    return this.boardsService.findOneByUserId({
+    return this.boardsService.findAllByUserId({
       user_id: context.req.user.user_id,
     });
   }

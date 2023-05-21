@@ -20,7 +20,7 @@ scalar DateTime
 type Board {
   board_id: String!
   title: String!
-  content: Int!
+  content: String!
   createdAt: DateTime!
   deletedAt: DateTime!
   user_: User!
@@ -63,6 +63,27 @@ type ClassSchedule {
   date: String!
   remain: Int!
   class_: Class!
+}
+
+type FetchClassesDetail {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  class_mNum: Int!
+  address: String!
+  address_detail: String!
+  category: String!
+  address_category: String!
+  total_time: String!
+  content: String!
+  accountNum: String!
+  accountName: String!
+  bankName: String!
+  is_ad: String!
+  url: String!
+  type: Int!
+  is_main: Int!
 }
 
 type FetchClassesPopular {
@@ -164,7 +185,7 @@ type Query {
   fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClassesPopular!]!
   fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [FetchClasses!]!
   fetchClassesOfMine: [FetchClasses!]!
-  fetchClassDetail(class_id: String!): Class!
+  fetchClassDetail(class_id: String!): [FetchClassesDetail!]!
   fetchClassReviews(class_id: String!): [ClassReview!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
   fetchReservationsOfUser: [Reservation!]!
