@@ -4,7 +4,7 @@ import { CreateClassScheduleInput } from 'src/apis/class_schedules/dto/create-cl
 import { ImageInput } from 'src/apis/images/dto/image_input';
 
 @ObjectType()
-export class FetchClasses {
+export class FetchClassesDetail {
   @Field(() => String)
   class_id: string;
 
@@ -52,4 +52,10 @@ export class FetchClasses {
 
   @Field(() => String)
   url: string;
+
+  @Field(() => Int)
+  type: number;
+
+  @Field(() => Int)
+  is_main: number;
 }

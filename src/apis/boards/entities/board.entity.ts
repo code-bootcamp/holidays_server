@@ -21,8 +21,8 @@ export class Board {
   title: string;
 
   @Column()
-  @Field(() => Int)
-  content: number;
+  @Field(() => String)
+  content: string;
 
   @CreateDateColumn()
   @Field(() => Date)

@@ -17,6 +17,7 @@ import {
   IClassesServiceUpdate,
   IClassesServiceUpdateIsAd,
 } from './interfaces/classes-service.interface';
+import { FetchClassesDetail } from './dto/fetch-classes-detail.output';
 
 const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
@@ -135,11 +136,19 @@ export class ClassesService {
     return result;
   }
 
-  findOneById({ class_id }: IClassesServiceFindOneById): Promise<Class> {
-    return this.classesRepository.findOne({
-      where: { class_id },
-      relations: ['user_'],
-    });
+  async findOneById({
+    class_id,
+  }: IClassesServiceFindOneById): Promise<FetchClassesDetail[]> {
+    const result = await this.classesRepository
+      .createQueryBuilder('class')
+      .select('*')
+      .innerJoin('image', 'i', 'class.class_id = i.class_classId')
+      .where('1=1')
+      .andWhere('class.class_id = :class_id', { class_id })
+      .getRawMany();
+
+    console.log(result);
+    return result;
   }
 
   async create({
