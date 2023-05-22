@@ -29,7 +29,19 @@ export class WishlistsResolver {
   fetchWishlists(
     @Context() context: IContext, //
   ): Promise<FetchWishlists[]> {
+    return this.wishlistsService.findAllByUserId({
+      user_id: context.req.user.user_id,
+    });
+  }
+
+  @UseGuards(GqlAuthGuard('access'))
+  @Query(() => Boolean)
+  fetchWishlistOfMine(
+    @Context() context: IContext, //
+    @Args('class_id') class_id: string,
+  ): Promise<boolean> {
     return this.wishlistsService.findOneByUserId({
+      class_id,
       user_id: context.req.user.user_id,
     });
   }

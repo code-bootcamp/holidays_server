@@ -22,7 +22,7 @@ export class Board {
   @Field(() => String)
   title: string;
 
-  @Column()
+  @Column({ type: 'text' })
   @Field(() => String)
   content: string;
 

@@ -28,7 +28,9 @@ export class ClassReviewsService {
     user_id,
     createClassReviewInput,
   }: IClassReviewsServiceCreate): Promise<string> {
+    const class_id = createClassReviewInput.class_id;
     const result = await this.classReviewsRepository.save({
+      class_: { class_id },
       user_: { user_id },
       ...createClassReviewInput,
     });

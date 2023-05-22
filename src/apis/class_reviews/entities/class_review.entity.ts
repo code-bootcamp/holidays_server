@@ -17,7 +17,7 @@ export class ClassReview {
   @Field(() => String)
   cr_id: string;
 
-  @Column()
+  @Column({ length: 300 })
   @Field(() => String)
   content: string;
 
