@@ -19,7 +19,7 @@ export class BoardsService {
 
   findAllByUserId({ user_id }): Promise<Board[]> {
     return this.boardsRepository.find({
-      where: { user_: user_id },
+      where: { user_: { user_id } },
       relations: ['user_'],
     });
   }
