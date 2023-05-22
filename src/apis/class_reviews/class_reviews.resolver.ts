@@ -21,12 +21,12 @@ export class ClassReviewsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Boolean)
+  @Mutation(() => String)
   createClassReview(
     @Context() context: IContext,
     @Args('createClassReviewInput')
     createClassReviewInput: CreateClassReviewInput,
-  ): Promise<boolean> {
+  ): Promise<string> {
     return this.classReviewsService.create({
       user_id: context.req.user.user_id,
       createClassReviewInput,

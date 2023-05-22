@@ -25,14 +25,13 @@ export class BoardReviewsService {
   async create({
     user_id,
     createBoardReviewInput,
-  }: IBoardReviewsServiceCreate): Promise<boolean> {
+  }: IBoardReviewsServiceCreate): Promise<string> {
     const result = await this.boardReviewsRepository.save({
       user_: { user_id },
       ...createBoardReviewInput,
     });
 
-    if (result.br_id) return true;
-    else return false;
+    return result.br_id;
   }
 
   async update({ updateBoardReviewInput }: IBoardReviewsServiceUpdate) {

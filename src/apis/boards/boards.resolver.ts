@@ -15,11 +15,11 @@ export class BoardsResolver {
   ) {}
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Boolean)
+  @Mutation(() => String)
   createBoard(
     @Context() context: IContext,
     @Args('createBoardInput') createBoardInput: CreateBoardInput,
-  ): Promise<boolean> {
+  ): Promise<string> {
     return this.boardsService.create({
       createBoardInput,
       user_id: context.req.user.user_id,

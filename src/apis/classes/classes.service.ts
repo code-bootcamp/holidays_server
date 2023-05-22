@@ -151,7 +151,7 @@ export class ClassesService {
   async create({
     createClassInput,
     user_id,
-  }: IClassesServiceCreate): Promise<Class> {
+  }: IClassesServiceCreate): Promise<string> {
     const { classSchedulesInput, imageInput, ...classInput } = createClassInput;
 
     const result = await this.classesRepository.save({
@@ -171,7 +171,7 @@ export class ClassesService {
       magazine_: 'null',
     });
 
-    return result;
+    return result.class_id;
   }
 
   async update({ updateClassInput }: IClassesServiceUpdate): Promise<boolean> {
@@ -227,15 +227,5 @@ export class ClassesService {
     });
 
     return '문의 전송 완료!';
-  }
-
-  async updateIsAd({ class_id }: IClassesServiceUpdateIsAd): Promise<boolean> {
-    console.log('클래스업데이트 오니?');
-    const result = await this.classesRepository.update(
-      { class_id },
-      { is_ad: 1 },
-    );
-    console.log(result.affected);
-    return result.affected ? true : false;
   }
 }

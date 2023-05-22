@@ -27,14 +27,13 @@ export class ClassReviewsService {
   async create({
     user_id,
     createClassReviewInput,
-  }: IClassReviewsServiceCreate): Promise<boolean> {
+  }: IClassReviewsServiceCreate): Promise<string> {
     const result = await this.classReviewsRepository.save({
       user_: { user_id },
       ...createClassReviewInput,
     });
 
-    if (result.cr_id) return true;
-    else return false;
+    return result.cr_id;
   }
 
   async update({
