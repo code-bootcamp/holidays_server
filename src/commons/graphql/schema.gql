@@ -224,8 +224,8 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  name: String!
-  phone: String!
+  name: String
+  phone: String
 }
 
 input CreateBoardInput {
