@@ -1,9 +1,10 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { BoardsService } from './boards.service';
 import { CreateBoardInput } from './dto/create-board.input';
+import { FetchBoards } from './dto/fetch-classes.output';
 import { UpdateBoardInput } from './dto/update-board.input';
 import { Board } from './entities/board.entity';
 
@@ -14,11 +15,11 @@ export class BoardsResolver {
   ) {}
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Board)
+  @Mutation(() => Boolean)
   createBoard(
     @Context() context: IContext,
     @Args('createBoardInput') createBoardInput: CreateBoardInput,
-  ): Promise<Board> {
+  ): Promise<boolean> {
     return this.boardsService.create({
       createBoardInput,
       user_id: context.req.user.user_id,
@@ -26,10 +27,10 @@ export class BoardsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Query(() => [Board])
+  @Query(() => [FetchBoards])
   fetchBoardsOfMine(
     @Context() context: IContext, //
-  ): Promise<Board[]> {
+  ): Promise<FetchBoards[]> {
     return this.boardsService.findAllByUserId({
       user_id: context.req.user.user_id,
     });
@@ -49,9 +50,12 @@ export class BoardsResolver {
     return this.boardsService.delete({ board_id });
   }
 
-  @Query(() => [Board])
-  fetchBoards(): Promise<Board[]> {
-    return this.boardsService.findAll();
+  @Query(() => [FetchBoards])
+  fetchBoards(
+    @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
+    page: number,
+  ): Promise<FetchBoards[]> {
+    return this.boardsService.findAll({ page });
   }
 
   @Query(() => Board)

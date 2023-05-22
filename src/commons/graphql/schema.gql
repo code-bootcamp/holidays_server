@@ -24,6 +24,7 @@ type Board {
   createdAt: DateTime!
   deletedAt: DateTime!
   user_: User!
+  image_: [Image!]!
 }
 
 type Class {
@@ -67,6 +68,15 @@ type Image {
   class_: Class!
   board_: Board!
   magazine_: Magazine!
+}
+
+type FetchBoards {
+  board_id: String!
+  title: String!
+  content: String!
+  name: String!
+  createdAt: DateTime!
+  url: String!
 }
 
 type ClassSchedule {
@@ -146,8 +156,8 @@ type BoardReview {
 type Query {
   fetchLoginUser: User!
   fetchUserIdByPhone(phone: String!): User!
-  fetchBoardsOfMine: [Board!]!
-  fetchBoards: [Board!]!
+  fetchBoardsOfMine: [FetchBoards!]!
+  fetchBoards(page: Int = 1): [FetchBoards!]!
   fetchBoardDetail(board_id: String!): Board!
   fetchClasses(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClasses!]!
   fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClassesPopular!]!
@@ -167,7 +177,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateUserPwd(pwd: String!): Boolean!
   deleteUser: Boolean!
-  createBoard(createBoardInput: CreateBoardInput!): Board!
+  createBoard(createBoardInput: CreateBoardInput!): Boolean!
   updateBoard(updateBoardInput: UpdateBoardInput!): Boolean!
   deleteBoard(board_id: String!): Boolean!
   createClass(createClassInput: CreateClassInput!): Class!
@@ -209,7 +219,6 @@ input UpdateUserInput {
 input CreateBoardInput {
   title: String!
   content: String!
-  email: String!
   imageInput: [ImageInput!]
 }
 
