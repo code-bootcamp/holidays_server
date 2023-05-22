@@ -11,7 +11,10 @@ export class ClassSchedulesService {
   ) {}
 
   findAllByClass({ class_id }): Promise<ClassSchedule[]> {
-    return this.classSchedulesRepository.find({ where: { class_: class_id } });
+    return this.classSchedulesRepository.find({
+      where: { class_: { class_id } },
+      relations: ['class_'],
+    });
   }
 
   async create({ classSchedulesInput, class_id }): Promise<string[]> {
