@@ -92,7 +92,9 @@ export class ClassesService {
       })
       .andWhere('title LIKE "%":search"%"', { search })
       .andWhere('i.is_main = 1')
-      .groupBy('class.class_id')
+      .groupBy(
+        'class_id,title,content_summary,price,total_time,address,address_detail,url',
+      )
       .orderBy('row_count', 'DESC')
       .limit(pageSize)
       .offset(pageSize * (page - 1))
