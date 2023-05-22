@@ -1,4 +1,5 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { Image } from 'src/apis/images/entities/image.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -91,4 +93,8 @@ export class Class {
   @ManyToOne(() => User)
   @Field(() => User)
   user_: User;
+
+  @OneToMany(() => Image, (image_) => image_.class_)
+  @Field(() => [Image])
+  image_: Image[];
 }

@@ -10,6 +10,8 @@ import { ImagesService } from '../images/images.service';
 import { ClassSchedulesService } from '../class_schedules/class_schedules.service';
 import { ClassSchedule } from '../class_schedules/entities/class_schedule.entity';
 import { Image } from '../images/entities/image.entity';
+import { User } from '../users/entities/user.entity';
+import { UsersService } from '../users/users.service';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { Image } from '../images/entities/image.entity';
       Class,
       Image,
       ClassSchedule,
+      User,
     ]),
   ],
   providers: [
@@ -27,6 +30,7 @@ import { Image } from '../images/entities/image.entity';
     IamPortService,
     ImagesService,
     ClassSchedulesService,
+    UsersService,
   ],
 })
 export class ClassAdsModule {}

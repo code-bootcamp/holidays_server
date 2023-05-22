@@ -18,6 +18,7 @@ import {
   IClassesServiceUpdateIsAd,
 } from './interfaces/classes-service.interface';
 import { FetchClassesDetail } from './dto/fetch-classes-detail.output';
+import { UsersService } from '../users/users.service';
 
 const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
@@ -30,6 +31,8 @@ export class ClassesService {
     private readonly classSchedulesService: ClassSchedulesService,
 
     private readonly imagesService: ImagesService,
+
+    private readonly usersService: UsersService,
   ) {}
 
   async findAllByFilter({
@@ -136,18 +139,12 @@ export class ClassesService {
     return result;
   }
 
-  async findOneById({
-    class_id,
-  }: IClassesServiceFindOneById): Promise<FetchClassesDetail[]> {
-    const result = await this.classesRepository
-      .createQueryBuilder('class')
-      .select('*')
-      .innerJoin('image', 'i', 'class.class_id = i.class_classId')
-      .where('1=1')
-      .andWhere('class.class_id = :class_id', { class_id })
-      .getRawMany();
+  async findOneById({ class_id }: IClassesServiceFindOneById): Promise<Class> {
+    const result = await this.classesRepository.findOne({
+      where: { class_id },
+      relations: ['image_', 'user_'],
+    });
 
-    console.log(result);
     return result;
   }
 
@@ -217,10 +214,15 @@ export class ClassesService {
       .andWhere('class.class_id = :class_id', { class_id })
       .getRawOne();
 
+    const user = await this.usersService.findOneById({ user_id });
+
     const result = await messageService.sendOne({
       to: phone.u_phone,
       from: process.env.SMS_SENDER,
-      text: content,
+      text: `${user.name}님에게 문의가 왔습니다 
+            문의 내용: ${content}
+            ${user.name}님 연락처: ${user.phone}
+            `,
       autoTypeDetect: true,
     });
 
