@@ -22,7 +22,6 @@ type Board {
   title: String!
   content: String!
   createdAt: DateTime!
-  deletedAt: DateTime!
   user_: User!
   image_: [Image!]!
 }
@@ -46,7 +45,6 @@ type Class {
   bankName: String!
   is_ad: Int!
   createdAt: DateTime!
-  deletedAt: DateTime!
   user_: User!
   image_: [Image!]!
 }
@@ -114,7 +112,6 @@ type ClassReview {
   content: String!
   grade: Int!
   createdAt: DateTime!
-  deletedAt: DateTime!
   user_: User!
   class_: Class!
 }
@@ -148,7 +145,6 @@ type BoardReview {
   br_id: String!
   content: String!
   createdAt: DateTime!
-  deletedAt: DateTime!
   user_: User!
   board_: Board!
 }
@@ -169,6 +165,7 @@ type Query {
   fetchReservationsOfUser: [Reservation!]!
   fetchReservationsOfClass(class_id: String!): [Reservation!]!
   fetchWishlists: [FetchWishlists!]!
+  fetchWishlistOfMine(class_id: String!): Boolean!
   fetchBoardReviews(board_id: String!): [BoardReview!]!
 }
 
@@ -177,14 +174,14 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateUserPwd(pwd: String!): Boolean!
   deleteUser: Boolean!
-  createBoard(createBoardInput: CreateBoardInput!): Boolean!
+  createBoard(createBoardInput: CreateBoardInput!): String!
   updateBoard(updateBoardInput: UpdateBoardInput!): Boolean!
   deleteBoard(board_id: String!): Boolean!
-  createClass(createClassInput: CreateClassInput!): Class!
+  createClass(createClassInput: CreateClassInput!): String!
   updateClass(updateClassInput: UpdateClassInput!): Boolean!
   deleteClass(class_id: String!): Boolean!
   createClassInquiry(class_id: String!, content: String!): String!
-  createClassReview(createClassReviewInput: CreateClassReviewInput!): Boolean!
+  createClassReview(createClassReviewInput: CreateClassReviewInput!): String!
   updateClassReview(updateClassReviewInput: UpdateClassReviewInput!): Boolean!
   deleteClassReview(cr_id: String!): Boolean!
   createClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
@@ -194,7 +191,7 @@ type Mutation {
   deleteReservation(res_id: String!): Boolean!
   createWishlist(class_id: String!): String!
   deleteWishlist(class_id: String!): Boolean!
-  createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): BoardReview!
+  createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): String!
   updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
   deleteBoardReview(br_id: String!): Boolean!
   createImage(imageInput: [ImageInput!]!, class_: String!, board_: String!, magazine_: String!): [String!]!

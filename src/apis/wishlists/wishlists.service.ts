@@ -16,7 +16,7 @@ export class WishlistsService {
     private readonly wishlistsRepository: Repository<Wishlist>, //
   ) {}
 
-  async findOneByUserId({
+  async findAllByUserId({
     user_id,
   }: IWishlistsServiceFindOneByUserId): Promise<FetchWishlists[]> {
     const result = await this.wishlistsRepository
@@ -38,6 +38,20 @@ export class WishlistsService {
       .getRawMany();
 
     return result;
+  }
+
+  async findOneByUserId({ class_id, user_id }): Promise<boolean> {
+    const result = await this.wishlistsRepository
+      .createQueryBuilder('wishlist')
+      .select('wishlist_id')
+      .where('user_userId = :user_id', { user_id })
+      .andWhere('class_classId = :class_id', { class_id })
+      .getRawOne();
+
+    console.log(result);
+
+    if (result) return true;
+    else return false;
   }
 
   async create({

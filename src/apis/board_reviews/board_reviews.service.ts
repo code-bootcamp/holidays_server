@@ -26,7 +26,9 @@ export class BoardReviewsService {
     user_id,
     createBoardReviewInput,
   }: IBoardReviewsServiceCreate): Promise<string> {
+    const board_id = createBoardReviewInput.board_id;
     const result = await this.boardReviewsRepository.save({
+      board_: { board_id },
       user_: { user_id },
       ...createBoardReviewInput,
     });

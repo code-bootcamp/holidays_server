@@ -22,7 +22,7 @@ export class Class {
   @Field(() => String)
   title: string;
 
-  @Column()
+  @Column({ length: 300 })
   @Field(() => String)
   content_summary: string;
 
@@ -42,11 +42,11 @@ export class Class {
   @Field(() => String)
   address_detail: string;
 
-  @Column({ type: 'decimal', precision: 6, scale: 2, default: 0.0 })
+  @Column({ type: 'decimal', precision: 8, scale: 6, default: 0.0 })
   @Field(() => Float)
   lat: number;
 
-  @Column({ type: 'decimal', precision: 6, scale: 3, default: 0.0 })
+  @Column({ type: 'decimal', precision: 9, scale: 6, default: 0.0 })
   @Field(() => Float)
   lon: number;
 
@@ -62,7 +62,7 @@ export class Class {
   @Field(() => String)
   total_time: string;
 
-  @Column()
+  @Column({ type: 'text' })
   @Field(() => String)
   content: string;
 

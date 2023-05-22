@@ -17,7 +17,7 @@ export class BoardReview {
   @Field(() => String)
   br_id: string;
 
-  @Column()
+  @Column({ length: 300 })
   @Field(() => String)
   content: string;
 
