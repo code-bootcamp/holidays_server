@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ClassReview } from './entities/class_review.entity';
 import {
   IClassReviewsServiceCreate,
+  IClassReviewsServiceFindAllById,
   IClassReviewsServiceUpdate,
 } from './interfaces/class_reviews-service.interface';
 
@@ -14,7 +15,9 @@ export class ClassReviewsService {
     private readonly classReviewsRepository: Repository<ClassReview>, //
   ) {}
 
-  findAllById({ class_id }) {
+  findAllById({
+    class_id,
+  }: IClassReviewsServiceFindAllById): Promise<ClassReview[]> {
     return this.classReviewsRepository.find({
       where: { class_: { class_id } },
       relations: ['user_', 'class_'],

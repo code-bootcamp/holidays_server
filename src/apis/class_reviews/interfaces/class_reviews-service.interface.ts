@@ -9,3 +9,7 @@ export interface IClassReviewsServiceCreate {
 export interface IClassReviewsServiceUpdate {
   updateClassReviewInput: UpdateClassReviewInput;
 }
+
+export interface IClassReviewsServiceFindAllById {
+  class_id: string;
+}
