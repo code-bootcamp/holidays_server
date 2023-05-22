@@ -235,7 +235,7 @@ export class ClassesService {
       { class_id },
       { is_ad: 1 },
     );
-
+    console.log(result.affected);
     return result.affected ? true : false;
   }
 }
