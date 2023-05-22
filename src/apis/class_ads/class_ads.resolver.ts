@@ -11,20 +11,20 @@ export class ClassAdsResolver {
   constructor(private readonly classAdsService: Class_AdsService) {}
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Class_Ad)
+  @Mutation(() => Boolean)
   createClassAd(
     @Args('createClassAdInput') createClassAdInput: CreateClassAdInput,
-  ): Promise<Class_Ad> {
+  ): Promise<boolean> {
     return this.classAdsService.createForPayment({
       createClassAdInput,
     });
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Class_Ad)
+  @Mutation(() => Boolean)
   cancelClassAd(
     @Args('createClassAdInput') createClassAdInput: CreateClassAdInput,
-  ): Promise<Class_Ad> {
+  ): Promise<boolean> {
     return this.classAdsService.cancel({
       createClassAdInput,
     });

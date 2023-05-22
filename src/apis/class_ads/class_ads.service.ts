@@ -53,7 +53,7 @@ export class Class_AdsService {
   async create({
     createClassAdInput,
     status = ClASSAD_STATUS_ENUM.PAYMENT,
-  }: IClassAdServiceCreate): Promise<Class_Ad> {
+  }: IClassAdServiceCreate): Promise<boolean> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction('SERIALIZABLE');
@@ -73,7 +73,7 @@ export class Class_AdsService {
 
       await queryRunner.commitTransaction();
 
-      return classAd;
+      return true;
     } catch (error) {
       await queryRunner.rollbackTransaction();
     } finally {
@@ -83,7 +83,7 @@ export class Class_AdsService {
 
   async createForPayment({
     createClassAdInput,
-  }: IClassAdServiceCreateForPayment): Promise<Class_Ad> {
+  }: IClassAdServiceCreateForPayment): Promise<boolean> {
     console.log(createClassAdInput, '1');
     const { imp_uid, amount } = createClassAdInput;
     await this.iamPortService.checkPaid({ imp_uid, amount });
@@ -125,7 +125,7 @@ export class Class_AdsService {
 
   async cancel({
     createClassAdInput,
-  }: IClassAdServiceCancel): Promise<Class_Ad> {
+  }: IClassAdServiceCancel): Promise<boolean> {
     const { imp_uid, method } = createClassAdInput;
     const classAd = await this.findByImpUid({ imp_uid });
     this.checkAlreadyCanceled({ classAd });
