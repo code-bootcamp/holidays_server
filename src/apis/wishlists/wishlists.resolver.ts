@@ -13,11 +13,11 @@ export class WishlistsResolver {
   ) {}
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Wishlist)
+  @Mutation(() => String)
   createWishlist(
     @Context() context: IContext,
     @Args('class_id') class_id: string,
-  ) {
+  ): Promise<string> {
     return this.wishlistsService.create({
       user_id: context.req.user.user_id,
       class_id,
@@ -36,9 +36,13 @@ export class WishlistsResolver {
 
   @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => Boolean)
-  deleteWishlist(@Args('wishlist_id') wishlist_id: string) {
+  deleteWishlist(
+    @Context() context: IContext, //
+    @Args('class_id') class_id: string,
+  ) {
     return this.wishlistsService.delete({
-      wishlist_id,
+      class_id,
+      user_id: context.req.user.user_id,
     });
   }
 }

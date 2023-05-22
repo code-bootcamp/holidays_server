@@ -8,5 +8,6 @@ export interface IWishlistsServiceFindOneByUserId {
 }
 
 export interface IWishlistsServiceDelete {
-  wishlist_id: string;
+  class_id: string;
+  user_id: string;
 }

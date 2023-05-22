@@ -67,7 +67,6 @@ export class Class_AdsService {
         class_: { class_id },
         status,
       });
-      console.log(classAd, '결제정보');
       await queryRunner.manager.save(classAd);
 
       await queryRunner.manager.update(Class, { class_id }, { is_ad: 1 });
@@ -85,12 +84,10 @@ export class Class_AdsService {
   async createForPayment({
     createClassAdInput,
   }: IClassAdServiceCreateForPayment): Promise<boolean> {
-    console.log(createClassAdInput, '1');
     const { imp_uid, amount } = createClassAdInput;
     await this.iamPortService.checkPaid({ imp_uid, amount });
     await this.checkDuplication({ imp_uid });
-    console.log('여기 통과?');
-    console.log(createClassAdInput, '2');
+
     return await this.create({ createClassAdInput });
   }
 
@@ -115,8 +112,7 @@ export class Class_AdsService {
     const isAd = classAd.filter(
       (el) => el.status === ClASSAD_STATUS_ENUM.PAYMENT,
     );
-    console.log(isAd);
-    console.log(isAd.length);
+
     if (!isAd.length)
       throw new UnprocessableEntityException('결제 기록이 존재하지 않습니다.');
 

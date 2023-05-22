@@ -109,22 +109,6 @@ type ClassReview {
   class_: Class!
 }
 
-type Class_Ad {
-  ca_id: String!
-  imp_uid: String!
-  amount: Int!
-  method: String!
-  createdAt: DateTime!
-  deletedAt: DateTime!
-  status: ClASSAD_STATUS_ENUM!
-  class_: Class!
-}
-
-enum ClASSAD_STATUS_ENUM {
-  PAYMENT
-  CANCEL
-}
-
 type Reservation {
   res_id: String!
   res_date: String!
@@ -137,12 +121,6 @@ type Reservation {
 enum RESERVATION_STATUS_ENUM {
   COMPLETE
   WAITING
-}
-
-type Wishlist {
-  wishlist_id: String!
-  user_: User!
-  class_: Class!
 }
 
 type FetchWishlists {
@@ -199,13 +177,13 @@ type Mutation {
   createClassReview(createClassReviewInput: CreateClassReviewInput!): ClassReview!
   updateClassReview(updateClassReviewInput: UpdateClassReviewInput!): ClassReview!
   deleteClassReview(cr_id: String!): Boolean!
-  createClassAd(createClassAdInput: CreateClassAdInput!): Class_Ad!
-  cancelClassAd(createClassAdInput: CreateClassAdInput!): Class_Ad!
+  createClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
+  cancelClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   createReservation(createReservationInput: CreateReservationInput!): String!
   deleteReservation(res_id: String!): Boolean!
-  createWishlist(class_id: String!): Wishlist!
-  deleteWishlist(wishlist_id: String!): Boolean!
+  createWishlist(class_id: String!): String!
+  deleteWishlist(class_id: String!): Boolean!
   createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): BoardReview!
   updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
   deleteBoardReview(br_id: String!): Boolean!
