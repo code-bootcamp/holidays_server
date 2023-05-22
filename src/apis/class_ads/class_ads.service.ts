@@ -59,15 +59,17 @@ export class Class_AdsService {
     await queryRunner.startTransaction('SERIALIZABLE');
 
     try {
+      const class_id = createClassAdInput.class_id;
+
       const classAd = this.classAdRepository.create({
         ...createClassAdInput,
+        class_: { class_id },
         status,
       });
       console.log(classAd, '결제정보');
       await queryRunner.manager.save(classAd);
 
-      const class_id = classAd.class_;
-      await this.classesService.updateIsAd(class_id);
+      await this.classesService.updateIsAd({ class_id });
 
       await queryRunner.commitTransaction();
 
@@ -82,10 +84,12 @@ export class Class_AdsService {
   async createForPayment({
     createClassAdInput,
   }: IClassAdServiceCreateForPayment): Promise<Class_Ad> {
+    console.log(createClassAdInput, '1');
     const { imp_uid, amount } = createClassAdInput;
     await this.iamPortService.checkPaid({ imp_uid, amount });
     await this.checkDuplication({ imp_uid });
     console.log('여기 통과?');
+    console.log(createClassAdInput, '2');
     return await this.create({ createClassAdInput });
   }
 
