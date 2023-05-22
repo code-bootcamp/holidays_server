@@ -44,7 +44,6 @@ export class Class_Ad {
   createdAt: Date;
 
   @DeleteDateColumn()
-  @Field(() => Date)
   deletedAt: Date;
 
   @Column({ type: 'enum', enum: ClASSAD_STATUS_ENUM })
