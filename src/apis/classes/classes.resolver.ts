@@ -140,10 +140,8 @@ export class ClassesResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Query(() => [FetchClassesDetail])
-  fetchClassDetail(
-    @Args('class_id') class_id: string,
-  ): Promise<FetchClassesDetail[]> {
+  @Query(() => Class)
+  fetchClassDetail(@Args('class_id') class_id: string): Promise<Class> {
     return this.classesService.findOneById({
       class_id,
     });
