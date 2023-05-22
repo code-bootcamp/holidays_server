@@ -128,11 +128,11 @@ export class ClassesResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => Class)
+  @Mutation(() => String)
   createClass(
     @Context() context: IContext,
     @Args('createClassInput') createClassInput: CreateClassInput,
-  ) {
+  ): Promise<string> {
     return this.classesService.create({
       createClassInput,
       user_id: context.req.user.user_id,

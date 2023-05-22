@@ -21,12 +21,12 @@ export class BoardReviewsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => BoardReview)
+  @Mutation(() => String)
   createBoardReview(
     @Context() context: IContext,
     @Args('createBoardReviewInput')
     createBoardReviewInput: CreateBoardReviewInput,
-  ) {
+  ): Promise<string> {
     return this.boardReviewsService.create({
       user_id: context.req.user.user_id,
       createBoardReviewInput,

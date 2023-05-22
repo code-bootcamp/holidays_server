@@ -34,7 +34,7 @@ export class BoardsService {
   async create({
     createBoardInput,
     user_id,
-  }: IBoardsServiceCreate): Promise<boolean> {
+  }: IBoardsServiceCreate): Promise<string> {
     const { imageInput, ...boardInput } = createBoardInput;
 
     const result = await this.boardsRepository.save({
@@ -49,8 +49,7 @@ export class BoardsService {
       magazine_: 'null',
     });
 
-    if (result.board_id) return true;
-    else return false;
+    return result.board_id;
   }
 
   async update({ updateBoardInput }: IBoardsServiceUpdate): Promise<boolean> {
