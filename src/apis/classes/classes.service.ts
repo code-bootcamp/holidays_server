@@ -230,6 +230,7 @@ export class ClassesService {
   }
 
   async updateIsAd({ class_id }: IClassesServiceUpdateIsAd): Promise<boolean> {
+    console.log('클래스업데이트 오니?');
     const result = await this.classesRepository.update(
       { class_id },
       { is_ad: 1 },

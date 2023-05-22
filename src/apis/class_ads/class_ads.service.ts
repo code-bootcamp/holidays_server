@@ -63,7 +63,7 @@ export class Class_AdsService {
         ...createClassAdInput,
         status,
       });
-
+      console.log(classAd, '결제정보');
       await queryRunner.manager.save(classAd);
 
       const class_id = classAd.class_;
@@ -85,7 +85,7 @@ export class Class_AdsService {
     const { imp_uid, amount } = createClassAdInput;
     await this.iamPortService.checkPaid({ imp_uid, amount });
     await this.checkDuplication({ imp_uid });
-
+    console.log('여기 통과?');
     return await this.create({ createClassAdInput });
   }
 
