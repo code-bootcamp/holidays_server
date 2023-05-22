@@ -33,6 +33,7 @@ export class IamPortService {
     amount,
   }: IIamportServiceCheckPaid): Promise<void> {
     try {
+      console.log(imp_uid, '결제아이디');
       const access_token = await this.getToken();
       const result = await axios.get(
         `https://api.iamport.kr/payments/${imp_uid}`,
@@ -43,6 +44,7 @@ export class IamPortService {
       if (amount !== result.data.response.amount)
         throw new UnprocessableEntityException('잘못된 결제 정보입니다.');
     } catch (error) {
+      console.log('여기들어오면 위에 통과 못한거임');
       if (error?.response?.data?.message) {
         throw new HttpException(
           error.response.data.message,
