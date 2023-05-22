@@ -79,6 +79,12 @@ export class ReservationsService {
 
     const is_res = result.affected ? true : false;
 
+    await this.classSchedulesService.updateRemain({
+      res_date,
+      personnel,
+      class_id,
+    });
+
     return true;
   }
 

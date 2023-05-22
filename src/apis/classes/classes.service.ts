@@ -73,7 +73,7 @@ export class ClassesService {
     const result = await this.classesRepository
       .createQueryBuilder('class')
       .select([
-        'class_class_id AS class_id',
+        'class.class_id AS class_id',
         'class.title AS title',
         'class.content_summary AS content_summary',
         'class.price AS price',
