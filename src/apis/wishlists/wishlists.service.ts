@@ -30,13 +30,12 @@ export class WishlistsService {
         'c.address_detail AS address_detail',
         'i.url AS url',
       ])
-      .innerJoin('user', 'u', 'wishlist.user_userId = u.user_id')
-      .innerJoin('class', 'c', 'wishlist.user_userId = c.user_userId')
+      .innerJoin('class', 'c', 'c.class_id = wishlist.class_classId')
       .innerJoin('image', 'i', 'c.class_id = i.class_classId')
       .where('1=1')
-      .andWhere('u.user_id = :user_id', { user_id })
+      .andWhere('wishlist.user_userId = :user_id', { user_id })
+      .andWhere('i.is_main = 1')
       .getRawMany();
-    console.log(result);
 
     return result;
   }
@@ -44,17 +43,25 @@ export class WishlistsService {
   async create({
     user_id,
     class_id,
-  }: IWishlistsServiceCreate): Promise<Wishlist> {
+  }: IWishlistsServiceCreate): Promise<string> {
     const result = await this.wishlistsRepository.save({
       user_: { user_id },
       class_: { class_id },
     });
 
-    return result;
+    return result.wishlist_id;
   }
 
-  async delete({ wishlist_id }: IWishlistsServiceDelete): Promise<boolean> {
-    const result = await this.wishlistsRepository.delete({ wishlist_id });
+  async delete({
+    class_id,
+    user_id,
+  }: IWishlistsServiceDelete): Promise<boolean> {
+    const result = await this.wishlistsRepository
+      .createQueryBuilder('wishlist')
+      .delete()
+      .where('user_userId = :user_id', { user_id })
+      .andWhere('class_classId = :class_id', { class_id })
+      .execute();
 
     return result.affected ? true : false;
   }
