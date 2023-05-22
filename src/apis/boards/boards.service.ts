@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ImagesService } from '../images/images.service';
+import { FetchBoards } from './dto/fetch-classes.output';
 import { Board } from './entities/board.entity';
 import {
   IBoardsServiceCreate,
@@ -17,17 +18,23 @@ export class BoardsService {
     private readonly imagesService: ImagesService,
   ) {}
 
-  findAllByUserId({ user_id }): Promise<Board[]> {
-    return this.boardsRepository.find({
-      where: { user_: { user_id } },
-      relations: ['user_'],
-    });
+  async findAllByUserId({ user_id }): Promise<FetchBoards[]> {
+    const result = await this.boardsRepository
+      .createQueryBuilder('board')
+      .select('*')
+      .innerJoin('image', 'i', 'i.board_boardId = board.board_id')
+      .innerJoin('user', 'u', 'u.user_id = board.user_userId')
+      .where('i.is_main = 1')
+      .andWhere('board.user_userId = :user_id', { user_id })
+      .getRawMany();
+
+    return result;
   }
 
   async create({
     createBoardInput,
     user_id,
-  }: IBoardsServiceCreate): Promise<Board> {
+  }: IBoardsServiceCreate): Promise<boolean> {
     const { imageInput, ...boardInput } = createBoardInput;
 
     const result = await this.boardsRepository.save({
@@ -42,7 +49,8 @@ export class BoardsService {
       magazine_: 'null',
     });
 
-    return result;
+    if (result.board_id) return true;
+    else return false;
   }
 
   async update({ updateBoardInput }: IBoardsServiceUpdate): Promise<boolean> {
@@ -71,14 +79,26 @@ export class BoardsService {
     return result.affected ? true : false;
   }
 
-  findAll(): Promise<Board[]> {
-    return this.boardsRepository.find({ relations: ['user_'] });
+  async findAll({ page }): Promise<FetchBoards[]> {
+    const pageSize = 10;
+
+    const result = await this.boardsRepository
+      .createQueryBuilder('board')
+      .select('*')
+      .innerJoin('image', 'i', 'i.board_boardId = board.board_id')
+      .innerJoin('user', 'u', 'u.user_id = board.user_userId')
+      .where('i.is_main = 1')
+      .orderBy('board.createdAt', 'DESC')
+      .limit(pageSize)
+      .offset(pageSize * (page - 1))
+      .getRawMany();
+    return result;
   }
 
   findOneById({ board_id }): Promise<Board> {
     return this.boardsRepository.findOne({
       where: { board_id },
-      relations: ['user_'],
+      relations: ['user_', 'image_'],
     });
   }
 }

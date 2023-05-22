@@ -9,9 +9,6 @@ export class CreateBoardInput {
   @Field(() => String)
   content: string;
 
-  @Field(() => String)
-  email: string;
-
   @Field(() => [ImageInput], { nullable: true })
   imageInput: ImageInput[];
 }
