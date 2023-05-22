@@ -87,7 +87,6 @@ export class Class {
   createdAt: Date;
 
   @DeleteDateColumn()
-  @Field(() => Date)
   deletedAt: Date;
 
   @ManyToOne(() => User)

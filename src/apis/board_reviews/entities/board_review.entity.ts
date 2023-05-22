@@ -26,7 +26,6 @@ export class BoardReview {
   createdAt: Date;
 
   @DeleteDateColumn()
-  @Field(() => Date)
   deletedAt: Date;
 
   @ManyToOne(() => User)

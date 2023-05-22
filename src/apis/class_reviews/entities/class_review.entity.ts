@@ -30,7 +30,6 @@ export class ClassReview {
   createdAt: Date;
 
   @DeleteDateColumn()
-  @Field(() => Date)
   deletedAt: Date;
 
   @ManyToOne(() => User)
