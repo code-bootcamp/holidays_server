@@ -21,12 +21,12 @@ export class ClassReviewsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => ClassReview)
+  @Mutation(() => Boolean)
   createClassReview(
     @Context() context: IContext,
     @Args('createClassReviewInput')
     createClassReviewInput: CreateClassReviewInput,
-  ) {
+  ): Promise<boolean> {
     return this.classReviewsService.create({
       user_id: context.req.user.user_id,
       createClassReviewInput,
@@ -34,11 +34,11 @@ export class ClassReviewsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => ClassReview)
+  @Mutation(() => Boolean)
   updateClassReview(
     @Args('updateClassReviewInput')
     updateClassReviewInput: UpdateClassReviewInput, //
-  ) {
+  ): Promise<boolean> {
     return this.classReviewsService.update({ updateClassReviewInput });
   }
 
@@ -50,13 +50,4 @@ export class ClassReviewsResolver {
   ): Promise<boolean> {
     return this.classReviewsService.delete({ cr_id });
   }
-
-  //   @UseGuards(GqlAuthGuard('access'))
-  //   @Query(() => Class_Review)
-  //   fetchLoginUser(
-  //     @Context() context: IContext, //
-  //   ): Promise<Class_Review> {
-  //     const user_id = context.req.user.user_id;
-  //     return this.class_reviewsService.findOneById({ user_id });
-  //   }
 }

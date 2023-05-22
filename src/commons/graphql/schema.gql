@@ -184,8 +184,8 @@ type Mutation {
   updateClass(updateClassInput: UpdateClassInput!): Boolean!
   deleteClass(class_id: String!): Boolean!
   createClassInquiry(class_id: String!, content: String!): String!
-  createClassReview(createClassReviewInput: CreateClassReviewInput!): ClassReview!
-  updateClassReview(updateClassReviewInput: UpdateClassReviewInput!): ClassReview!
+  createClassReview(createClassReviewInput: CreateClassReviewInput!): Boolean!
+  updateClassReview(updateClassReviewInput: UpdateClassReviewInput!): Boolean!
   deleteClassReview(cr_id: String!): Boolean!
   createClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
   cancelClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
