@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { ClassesService } from '../classes/classes.service';
+import { Class } from '../classes/entities/class.entity';
 import { IamPortService } from '../iamport/iamport.service';
 
 import { ClASSAD_STATUS_ENUM, Class_Ad } from './entities/class_ad.entity';
@@ -69,7 +70,7 @@ export class Class_AdsService {
       console.log(classAd, '결제정보');
       await queryRunner.manager.save(classAd);
 
-      await this.classesService.updateIsAd({ class_id });
+      await queryRunner.manager.update(Class, { class_id }, { is_ad: 1 });
 
       await queryRunner.commitTransaction();
 
