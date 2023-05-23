@@ -44,3 +44,9 @@ export interface IClassesServicePopular {
   address_detail: string;
   row_count: number;
 }
+
+export interface IClassesServiceSendClassInquiry {
+  user_id: string;
+  class_id: string;
+  content: string;
+}

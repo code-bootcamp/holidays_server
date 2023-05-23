@@ -188,6 +188,7 @@ type Mutation {
   cancelClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   createReservation(createReservationInput: CreateReservationInput!): String!
+  updateReservation(rse_id: String!): Boolean!
   deleteReservation(res_id: String!): Boolean!
   createWishlist(class_id: String!): String!
   deleteWishlist(class_id: String!): Boolean!

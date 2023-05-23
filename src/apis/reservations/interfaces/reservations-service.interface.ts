@@ -22,3 +22,11 @@ export interface IReservationsServiceFindAllByClass {
 export interface IReservationsServiceDelete {
   res_id: string;
 }
+
+export interface IReservationsServiceUpdateStatus {
+  res_id: string;
+}
+
+export interface IReservationsServiceSendReservation {
+  class_id: string;
+}
