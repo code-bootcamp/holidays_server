@@ -63,4 +63,34 @@ export class UsersResolver {
   ): Promise<boolean> {
     return this.usersService.delete({ user_id: context.req.user.user_id });
   }
+
+  @Mutation(() => String)
+  getTokenEmail(
+    @Args('email') email: string, //
+  ): Promise<string> {
+    return this.usersService.sendTokenEmail({ email });
+  }
+
+  @Mutation(() => Boolean)
+  checkEmailToken(
+    @Args('email') email: string, //
+    @Args('token') token: string,
+  ): Promise<boolean> {
+    return this.usersService.checkEmailToken({ email, token });
+  }
+
+  @Mutation(() => String)
+  getTokenPhone(
+    @Args('phone') phone: string, //
+  ): Promise<string> {
+    return this.usersService.sendTokenPhone({ phone });
+  }
+
+  @Mutation(() => Boolean)
+  checkPhoneToken(
+    @Args('phone') phone: string, //
+    @Args('token') token: string,
+  ): Promise<boolean> {
+    return this.usersService.checkPhoneToken({ phone, token });
+  }
 }

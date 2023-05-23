@@ -21,6 +21,7 @@
   "dependencies": {
     "@apollo/server": "^4.5.0",
     "@google-cloud/storage": "^6.9.5",
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/apollo": "^11.0.4",
     "@nestjs/cache-manager": "^1.0.0",
     "@nestjs/common": "^9.0.0",
@@ -101,4 +102,3 @@
     "testEnvironment": "node"
   }
 }
-

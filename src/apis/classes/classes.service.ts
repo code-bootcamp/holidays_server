@@ -16,9 +16,7 @@ import {
   IClassesServiceFindOneById,
   IClassesServiceSendClassInquiry,
   IClassesServiceUpdate,
-  IClassesServiceUpdateIsAd,
 } from './interfaces/classes-service.interface';
-import { FetchClassesDetail } from './dto/fetch-classes-detail.output';
 import { UsersService } from '../users/users.service';
 
 const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);

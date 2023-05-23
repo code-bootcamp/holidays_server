@@ -36,3 +36,30 @@ export interface IOAuthUser {
     pwd: string;
   };
 }
+
+export interface IUsersServiceSendTokenEmail {
+  email: string;
+}
+
+export interface IUsersServiceDuplicationEmail {
+  email: string;
+}
+
+export interface IUsersServiceCheckEmailToken {
+  email: string;
+  token: string;
+}
+
+export interface IUsersServiceSendEmail {
+  email: string;
+  name: string;
+}
+
+export interface IUsersServiceSendTokenPhone {
+  phone: string;
+}
+
+export interface IUsersServiceCheckPhoneToken {
+  phone: string;
+  token: string;
+}
