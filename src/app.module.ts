@@ -17,6 +17,8 @@ import { WishlistsModule } from './apis/wishlists/wishLists.module';
 import { BoardReviewsModule } from './apis/board_reviews/board_reviews.module';
 import { ImagesModule } from './apis/images/images.module';
 import { AuthModule } from './apis/auth/auth.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -38,6 +40,27 @@ import { AuthModule } from './apis/auth/auth.module';
       driver: ApolloDriver,
       autoSchemaFile: 'src/commons/graphql/schema.gql',
       context: ({ req, res }) => ({ req, res }),
+    }),
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          service: 'Gmail',
+          host: process.env.EMAIL_HOST,
+          port: Number(process.env.DATABASE_PORT),
+          secure: false,
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+          template: {
+            dir: __dirname + '/templates/',
+            adapter: new HandlebarsAdapter(),
+            options: {
+              strict: true,
+            },
+          },
+        },
+      }),
     }),
     //forRoot 모든 api 전체 적용시켜줘
     TypeOrmModule.forRoot({
