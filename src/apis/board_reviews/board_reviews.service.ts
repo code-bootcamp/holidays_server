@@ -28,6 +28,7 @@ export class BoardReviewsService {
         'u.name AS name',
         'board_review.br_id AS br_id',
         'board_review.content AS content',
+        'board_review.createdAt AS createdAt',
       ])
       .innerJoin('user', 'u', 'u.user_id = board_review.user_userId')
       .where('board_review.board_boardId = :board_id', { board_id })
