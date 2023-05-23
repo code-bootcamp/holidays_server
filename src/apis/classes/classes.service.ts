@@ -14,6 +14,7 @@ import {
   IClassesServiceFindAllByFilter,
   IClassesServiceFindAllByFilterWithAd,
   IClassesServiceFindOneById,
+  IClassesServiceSendClassInquiry,
   IClassesServiceUpdate,
   IClassesServiceUpdateIsAd,
 } from './interfaces/classes-service.interface';
@@ -207,7 +208,11 @@ export class ClassesService {
     return result.affected ? true : false;
   }
 
-  async sendClassInquiry({ user_id, class_id, content }): Promise<string> {
+  async sendClassInquiry({
+    user_id,
+    class_id,
+    content,
+  }: IClassesServiceSendClassInquiry): Promise<string> {
     const phone = await this.classesRepository
       .createQueryBuilder('class')
       .select('u.phone')

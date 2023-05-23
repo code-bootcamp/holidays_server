@@ -44,6 +44,13 @@ export class ReservationsResolver {
     });
   }
 
+  @Mutation(() => Boolean)
+  updateReservation(
+    @Args('rse_id') res_id: string, //
+  ): Promise<boolean> {
+    return this.reservationsService.updateStatus({ res_id });
+  }
+
   @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => Boolean)
   deleteReservation(
@@ -51,16 +58,4 @@ export class ReservationsResolver {
   ): Promise<boolean> {
     return this.reservationsService.delete({ res_id });
   }
-
-  //   @UseGuards(GqlAuthGuard('access'))
-  //   @Mutation(() => Board)
-  //   createBoard(
-  //     @Context() context: IContext,
-  //     @Args('createBoardInput') createBoardInput: CreateBoardInput,
-  //   ) {
-  //     return this.boardsService.create({
-  //       createBoardInput,
-  //       user_id: context.req.user.user_id,
-  //     });
-  //   }
 }

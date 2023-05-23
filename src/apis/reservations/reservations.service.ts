@@ -12,7 +12,12 @@ import {
   IReservationsServiceFindAllByClass,
   IReservationsServiceFindAllByUser,
   IReservationsServiceFindOne,
+  IReservationsServiceSendReservation,
+  IReservationsServiceUpdateStatus,
 } from './interfaces/reservations-service.interface';
+import coolSms from 'coolsms-node-sdk';
+
+const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
 @Injectable()
 export class ReservationsService {
@@ -65,7 +70,9 @@ export class ReservationsService {
     return result.res_id;
   }
 
-  async updateStatus({ res_id }): Promise<boolean> {
+  async updateStatus({
+    res_id,
+  }: IReservationsServiceUpdateStatus): Promise<boolean> {
     const reservation = await this.findOne({ res_id });
 
     const res_date = reservation.res_date;
@@ -85,7 +92,33 @@ export class ReservationsService {
       class_id,
     });
 
+    await this.sendReservation({ class_id });
+
     return true;
+  }
+
+  async sendReservation({
+    class_id,
+  }: IReservationsServiceSendReservation): Promise<string> {
+    const user_class = await this.reservationsRepository
+      .createQueryBuilder('reservation')
+      .select(['u.phone AS phone', 'c.title AS title'])
+      .innerJoin('class', 'c', 'c.class_id = reservation.class_classId')
+      .innerJoin('user', 'u', 'c.user_userId = u.user_id')
+      .where('1=1')
+      .andWhere('c.class_id = :class_id', { class_id })
+      .getRawOne();
+
+    const result = await messageService.sendOne({
+      to: user_class.phone,
+      from: process.env.SMS_SENDER,
+      text: `${user_class.title}클래스에 예약신청이 왔습니다 
+            입금 확인 후 예약 승인을 눌러주세요!
+            `,
+      autoTypeDetect: true,
+    });
+
+    return '문자 전송 완료!';
   }
 
   async delete({ res_id }: IReservationsServiceDelete): Promise<boolean> {

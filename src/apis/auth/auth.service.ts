@@ -106,7 +106,7 @@ export class AuthService {
     }
     // 3. 회원가입이 돼있다면? 로그인(refreshToken, accessToken 만들어서 브라우저에 전송)
     this.setRefreshToken({ user, res, req });
-    res.redirect('http://localhost:3000/mainPage');
+    res.redirect('http://localhost:3000/landingPage');
   }
 
   restoreAccessToken({ user }: IAuthServiceRestoreAccessToken): string {
