@@ -38,7 +38,7 @@ export class FilesService {
               .pipe(storage.file(el.filename).createWriteStream())
               .on('finish', () =>
                 resolve(
-                  `https://happyholidays-server.site/${bucket}/${el.filename}`,
+                  `https://storage.googleapis.com/${bucket}/${el.filename}`,
                 ),
               )
               .on('error', () => reject('실패'));
