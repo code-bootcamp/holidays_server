@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { FetchBoardReviews } from './dto/fetch-boardReviews.output';
 import { BoardReview } from './entities/board_review.entity';
 import {
   IBoardReviewsServiceCreate,
@@ -15,11 +16,27 @@ export class BoardReviewsService {
     private readonly boardReviewsRepository: Repository<BoardReview>, //
   ) {}
 
-  findAllById({ board_id }: IBoardReviewsServiceFindAllById) {
-    return this.boardReviewsRepository.find({
-      where: { board_: { board_id } },
-      relations: ['user_', 'board_'],
-    });
+  findAllById({
+    board_id,
+    page,
+  }: IBoardReviewsServiceFindAllById): Promise<FetchBoardReviews[]> {
+    const pageSize = 5;
+
+    const result = this.boardReviewsRepository
+      .createQueryBuilder('board_review')
+      .select([
+        'u.name AS name',
+        'board_review.br_id AS br_id',
+        'board_review.content AS content',
+      ])
+      .innerJoin('user', 'u', 'u.user_id = board_review.user_userId')
+      .where('board_review.board_boardId = :board_id', { board_id })
+      .orderBy('board_review.createdAt', 'DESC')
+      .limit(pageSize)
+      .offset(pageSize * (page - 1))
+      .getRawMany();
+
+    return result;
   }
 
   async create({

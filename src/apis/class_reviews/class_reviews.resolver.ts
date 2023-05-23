@@ -16,8 +16,10 @@ export class ClassReviewsResolver {
   @Query(() => [FetchClassReviews])
   fetchClassReviews(
     @Args('class_id') class_id: string, //
+    @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
+    page: number,
   ): Promise<FetchClassReviews[]> {
-    return this.classReviewsService.findAllById({ class_id });
+    return this.classReviewsService.findAllById({ class_id, page });
   }
 
   @UseGuards(GqlAuthGuard('access'))
