@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { FetchClassReviews } from './dto/fetch-classReviews.output';
 import { ClassReview } from './entities/class_review.entity';
 import {
   IClassReviewsServiceCreate,
@@ -17,11 +18,21 @@ export class ClassReviewsService {
 
   findAllById({
     class_id,
-  }: IClassReviewsServiceFindAllById): Promise<ClassReview[]> {
-    return this.classReviewsRepository.find({
-      where: { class_: { class_id } },
-      relations: ['user_', 'class_'],
-    });
+  }: IClassReviewsServiceFindAllById): Promise<FetchClassReviews[]> {
+    const result = this.classReviewsRepository
+      .createQueryBuilder('class_review')
+      .select([
+        'u.name AS name',
+        'class_review.cr_id AS cr_id',
+        'class_review.grade AS grade',
+        'class_review.content AS content',
+      ])
+      .innerJoin('user', 'u', 'u.user_id = class_review.user_userId')
+      .where('class_review.class_classId = :class_id', { class_id })
+      .orderBy('class_review.createdAt', 'DESC')
+      .getRawMany();
+
+    return result;
   }
 
   async create({

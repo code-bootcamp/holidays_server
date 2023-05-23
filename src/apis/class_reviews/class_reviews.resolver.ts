@@ -4,8 +4,8 @@ import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { ClassReviewsService } from './class_reviews.service';
 import { CreateClassReviewInput } from './dto/create-classReview.input';
+import { FetchClassReviews } from './dto/fetch-classReviews.output';
 import { UpdateClassReviewInput } from './dto/update-classReview.input';
-import { ClassReview } from './entities/class_review.entity';
 
 @Resolver()
 export class ClassReviewsResolver {
@@ -13,10 +13,10 @@ export class ClassReviewsResolver {
     private readonly classReviewsService: ClassReviewsService, //
   ) {}
 
-  @Query(() => [ClassReview])
+  @Query(() => [FetchClassReviews])
   fetchClassReviews(
     @Args('class_id') class_id: string, //
-  ): Promise<ClassReview[]> {
+  ): Promise<FetchClassReviews[]> {
     return this.classReviewsService.findAllById({ class_id });
   }
 

@@ -107,13 +107,11 @@ type FetchClasses {
   url: String!
 }
 
-type ClassReview {
+type FetchClassReviews {
   cr_id: String!
-  content: String!
+  name: String!
   grade: Int!
-  createdAt: DateTime!
-  user_: User!
-  class_: Class!
+  content: String!
 }
 
 type Reservation {
@@ -160,7 +158,7 @@ type Query {
   fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [FetchClasses!]!
   fetchClassesOfMine: [FetchClasses!]!
   fetchClassDetail(class_id: String!): Class!
-  fetchClassReviews(class_id: String!): [ClassReview!]!
+  fetchClassReviews(class_id: String!): [FetchClassReviews!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
   fetchReservationsOfUser: [Reservation!]!
   fetchReservationsOfClass(class_id: String!): [Reservation!]!

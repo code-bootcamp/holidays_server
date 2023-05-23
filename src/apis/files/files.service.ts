@@ -36,7 +36,11 @@ export class FilesService {
           new Promise<string>((resolve, reject) => {
             el.createReadStream()
               .pipe(storage.file(el.filename).createWriteStream())
-              .on('finish', () => resolve(`${bucket}/${el.filename}`))
+              .on('finish', () =>
+                resolve(
+                  `https://happyholidays-server.site/${bucket}/${el.filename}`,
+                ),
+              )
               .on('error', () => reject('실패'));
           }),
       ),
