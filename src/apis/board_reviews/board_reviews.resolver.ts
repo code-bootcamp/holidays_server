@@ -4,6 +4,7 @@ import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { BoardReviewsService } from './board_reviews.service';
 import { CreateBoardReviewInput } from './dto/create-boardReview.input';
+import { FetchBoardReviews } from './dto/fetch-boardReviews.output';
 import { UpdateBoardReviewInput } from './dto/update-boardReview.input';
 import { BoardReview } from './entities/board_review.entity';
 
@@ -13,11 +14,13 @@ export class BoardReviewsResolver {
     private readonly boardReviewsService: BoardReviewsService, //
   ) {}
 
-  @Query(() => [BoardReview])
+  @Query(() => [FetchBoardReviews])
   fetchBoardReviews(
     @Args('board_id') board_id: string, //
-  ): Promise<BoardReview[]> {
-    return this.boardReviewsService.findAllById({ board_id });
+    @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
+    page: number,
+  ): Promise<FetchBoardReviews[]> {
+    return this.boardReviewsService.findAllById({ board_id, page });
   }
 
   @UseGuards(GqlAuthGuard('access'))

@@ -12,4 +12,5 @@ export interface IClassReviewsServiceUpdate {
 
 export interface IClassReviewsServiceFindAllById {
   class_id: string;
+  page: number;
 }

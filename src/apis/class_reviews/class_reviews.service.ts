@@ -18,7 +18,10 @@ export class ClassReviewsService {
 
   findAllById({
     class_id,
+    page,
   }: IClassReviewsServiceFindAllById): Promise<FetchClassReviews[]> {
+    const pageSize = 5
+
     const result = this.classReviewsRepository
       .createQueryBuilder('class_review')
       .select([
@@ -30,6 +33,8 @@ export class ClassReviewsService {
       .innerJoin('user', 'u', 'u.user_id = class_review.user_userId')
       .where('class_review.class_classId = :class_id', { class_id })
       .orderBy('class_review.createdAt', 'DESC')
+      .limit(pageSize)
+      .offset(pageSize * (page - 1))
       .getRawMany();
 
     return result;
