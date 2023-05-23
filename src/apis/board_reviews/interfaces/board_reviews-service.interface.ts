@@ -12,4 +12,5 @@ export interface IBoardReviewsServiceUpdate {
 
 export interface IBoardReviewsServiceFindAllById {
   board_id: string;
+  page: number;
 }

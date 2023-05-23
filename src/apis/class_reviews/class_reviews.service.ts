@@ -20,7 +20,7 @@ export class ClassReviewsService {
     class_id,
     page,
   }: IClassReviewsServiceFindAllById): Promise<FetchClassReviews[]> {
-    const pageSize = 5
+    const pageSize = 5;
 
     const result = this.classReviewsRepository
       .createQueryBuilder('class_review')
@@ -29,6 +29,7 @@ export class ClassReviewsService {
         'class_review.cr_id AS cr_id',
         'class_review.grade AS grade',
         'class_review.content AS content',
+        'class_review.createdAt AS createdAt',
       ])
       .innerJoin('user', 'u', 'u.user_id = class_review.user_userId')
       .where('class_review.class_classId = :class_id', { class_id })

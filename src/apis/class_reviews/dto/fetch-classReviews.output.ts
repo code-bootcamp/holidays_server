@@ -13,4 +13,7 @@ export class FetchClassReviews {
 
   @Field(() => String)
   content: string;
+
+  @Field(() => Date)
+  createdAt: Date;
 }

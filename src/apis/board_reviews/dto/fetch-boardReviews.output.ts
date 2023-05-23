@@ -13,4 +13,7 @@ export class FetchBoardReviews {
 
   @Field(() => String)
   content: string;
+
+  @Field(() => Date)
+  createdAt: Date;
 }
