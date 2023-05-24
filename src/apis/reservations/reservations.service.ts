@@ -71,6 +71,7 @@ export class ReservationsService {
         date: result[i].date,
       });
     }
+    console.log(result);
 
     return result;
   }
