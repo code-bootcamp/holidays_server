@@ -45,15 +45,12 @@ export class UsersResolver {
     return this.usersService.findOneByPhone({ phone });
   }
 
-  @UseGuards(GqlAuthGuard('access'))
   @Mutation(() => Boolean)
   updateUserPwd(
-    @Context() context: IContext, //
+    @Args('email') email: string,
     @Args('pwd') pwd: string,
   ): Promise<boolean> {
-    const user_id = context.req.user.user_id;
-
-    return this.usersService.updatePwd({ user_id, pwd });
+    return this.usersService.updatePwd({ email, pwd });
   }
 
   @UseGuards(GqlAuthGuard('access'))

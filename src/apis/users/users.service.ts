@@ -101,13 +101,13 @@ export class UsersService {
     return result;
   }
 
-  async updatePwd({ user_id, pwd }: IUsersServiceUpdatePwd): Promise<boolean> {
+  async updatePwd({ email, pwd }: IUsersServiceUpdatePwd): Promise<boolean> {
     const hashedPassword = await bcrypt.hash(pwd, 10);
     const result = await this.usersRepository.update(
-      { user_id },
+      { email },
       { pwd: hashedPassword },
     );
-    // this.productsRepository.update({조건}, {수정할내용}) =>  결과를 객체로 못 돌려 받는 수정 방법
+
     return result.affected ? true : false;
   }
 

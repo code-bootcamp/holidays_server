@@ -11,7 +11,7 @@ export interface IUsersServiceUpdate {
 }
 
 export interface IUsersServiceUpdatePwd {
-  user_id: string;
+  email: string;
   pwd: string;
 }
 
