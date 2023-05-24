@@ -16,7 +16,8 @@ import {
   IReservationsServiceUpdateStatus,
 } from './interfaces/reservations-service.interface';
 import coolSms from 'coolsms-node-sdk';
-import { FetchReservationsOfClass } from './dto/fetch-reservation.output';
+import { FetchReservationsOfClass } from './dto/fetch-reservationOfClass.output';
+import { FetchReservationsOfUser } from './dto/fetch-reservationOfUser.output';
 
 const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
@@ -36,13 +37,30 @@ export class ReservationsService {
     });
   }
 
-  findAllByUser({
+  async findAllByUser({
     user_id,
-  }: IReservationsServiceFindAllByUser): Promise<Reservation[]> {
-    return this.reservationsRepository.find({
-      where: { user_: { user_id }, status: RESERVATION_STATUS_ENUM.COMPLETE },
-      relations: ['user_', 'class_'],
-    });
+  }: IReservationsServiceFindAllByUser): Promise<FetchReservationsOfUser[]> {
+    const result = await this.reservationsRepository
+      .createQueryBuilder('reservation')
+      .select([
+        'reservation.res_id AS res_id',
+        'u.name AS name',
+        'c.title AS title',
+        'reservation.res_date AS date',
+        'reservation.personnel AS personnel',
+        'c.class_id AS class_id',
+        'i.url AS url',
+      ])
+      .innerJoin('class', 'c', 'c.class_id = reservation.class_classId')
+      .innerJoin('user', 'u', 'u.user_id = reservation.user_userId')
+      .innerJoin('image', 'i', 'i.class_classId = reservation.class_classId')
+      .where('1=1')
+      .andWhere('reservation.status = "COMPLETE"')
+      .andWhere('reservation.user_userId = :user_id', { user_id })
+      .andWhere('i.is_main = 1')
+      .getRawMany();
+
+    return result;
   }
 
   async findAllByClass({
@@ -57,12 +75,15 @@ export class ReservationsService {
         'reservation.res_date AS date',
         'reservation.personnel AS personnel',
         'c.class_id AS class_id',
+        'i.url AS url',
       ])
       .innerJoin('class', 'c', 'c.class_id = reservation.class_classId')
       .innerJoin('user', 'u', 'u.user_id = reservation.user_userId')
+      .innerJoin('image', 'i', 'i.class_classId = reservation.class_classId')
       .where('1=1')
       .andWhere('reservation.status = "WAITING"')
       .andWhere('c.user_userId = :user_id', { user_id })
+      .andWhere('i.is_main = 1')
       .getRawMany();
 
     for (let i = 0; i < result.length; i++) {
