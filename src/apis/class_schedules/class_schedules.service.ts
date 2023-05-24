@@ -69,13 +69,17 @@ export class ClassSchedulesService {
   }
 
   async updateRemain({ res_date, personnel, class_id }) {
-    this.classSchedulesRepository
+    console.log(res_date, '333333');
+
+    const result = await this.classSchedulesRepository
       .createQueryBuilder('class_schedule')
       .update()
       .set({ remain: () => `remain - ${personnel}` })
       .where('class_classId = :class_id', { class_id })
       .andWhere('date = :res_date', { res_date })
       .execute();
+
+    console.log(result.affected, '4444444');
   }
 
   async delete({ cs_id }): Promise<boolean> {

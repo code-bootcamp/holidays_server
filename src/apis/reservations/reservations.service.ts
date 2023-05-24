@@ -96,9 +96,13 @@ export class ReservationsService {
   async updateStatus({
     res_id,
   }: IReservationsServiceUpdateStatus): Promise<boolean> {
+    console.log(res_id, '1111111');
+
     const reservation = await this.findOne({ res_id });
 
     const res_date = reservation.res_date;
+
+    console.log(res_date, '22222222');
     const personnel = reservation.personnel;
     const class_id = reservation.class_.class_id;
 
