@@ -192,7 +192,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateUserPwd(email: String!, pwd: String!): Boolean!
   deleteUser: Boolean!
-  getTokenEmail(email: String!): String!
+  getTokenEmail(email: String!, method: String!): String!
   checkEmailToken(email: String!, token: String!): Boolean!
   getTokenPhone(phone: String!): String!
   checkPhoneToken(phone: String!, token: String!): Boolean!

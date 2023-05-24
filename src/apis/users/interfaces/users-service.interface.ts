@@ -39,6 +39,7 @@ export interface IOAuthUser {
 
 export interface IUsersServiceSendTokenEmail {
   email: string;
+  method: string;
 }
 
 export interface IUsersServiceDuplicationEmail {

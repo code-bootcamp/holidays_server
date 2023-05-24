@@ -120,12 +120,21 @@ export class UsersService {
 
   async sendTokenEmail({
     email,
+    method,
   }: IUsersServiceSendTokenEmail): Promise<string> {
     // 이메일 형식 체크
     emailCheck(email);
 
-    // 이메일 중복 가입 체크
-    await this.duplicationEmail({ email });
+    if (method === 'create') {
+      // 이메일 중복 가입 체크
+      await this.duplicationEmail({ email });
+    } else if ((method = 'update')) {
+      const result = await this.findOneByEmail({ email });
+
+      if (!result) {
+        throw new UnprocessableEntityException('존재하지 않는 이메일입니다!!');
+      }
+    }
 
     const token = getToken();
 
