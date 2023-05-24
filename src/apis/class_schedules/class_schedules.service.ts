@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { ClassSchedule } from './entities/class_schedule.entity';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class ClassSchedulesService {
 
   findAllByClass({ class_id }): Promise<ClassSchedule[]> {
     return this.classSchedulesRepository.find({
-      where: { class_: { class_id } },
+      where: { class_: { class_id }, remain: MoreThanOrEqual(0) },
       relations: ['class_'],
     });
   }
