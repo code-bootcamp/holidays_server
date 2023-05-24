@@ -23,6 +23,9 @@ export class FetchClasses {
   @Field(() => String)
   address_detail: string;
 
+  @Field(() => Int)
+  is_ad: number;
+
   @Field(() => String)
   url: string;
 }

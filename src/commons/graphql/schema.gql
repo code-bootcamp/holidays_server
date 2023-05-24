@@ -104,6 +104,7 @@ type FetchClasses {
   total_time: String!
   address: String!
   address_detail: String!
+  is_ad: Int!
   url: String!
 }
 
@@ -189,7 +190,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  updateUserPwd(pwd: String!): Boolean!
+  updateUserPwd(email: String!, pwd: String!): Boolean!
   deleteUser: Boolean!
   getTokenEmail(email: String!): String!
   checkEmailToken(email: String!, token: String!): Boolean!
