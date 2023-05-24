@@ -116,20 +116,6 @@ type FetchClassReviews {
   createdAt: DateTime!
 }
 
-type Reservation {
-  res_id: String!
-  res_date: String!
-  personnel: Int!
-  status: RESERVATION_STATUS_ENUM!
-  user_: User!
-  class_: Class!
-}
-
-enum RESERVATION_STATUS_ENUM {
-  COMPLETE
-  WAITING
-}
-
 type FetchReservationsOfClass {
   res_id: String!
   name: String!
@@ -138,6 +124,17 @@ type FetchReservationsOfClass {
   personnel: String!
   class_id: String!
   remain: Int!
+  url: String!
+}
+
+type FetchReservationsOfUser {
+  res_id: String!
+  name: String!
+  title: String!
+  date: String!
+  personnel: String!
+  class_id: String!
+  url: String!
 }
 
 type FetchWishlists {
@@ -180,7 +177,7 @@ type Query {
   fetchClassDetail(class_id: String!): Class!
   fetchClassReviews(class_id: String!, page: Int = 1): [FetchClassReviews!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
-  fetchReservationsOfUser: [Reservation!]!
+  fetchReservationsOfUser: [FetchReservationsOfUser!]!
   fetchReservationsOfClass: [FetchReservationsOfClass!]!
   fetchWishlists: [FetchWishlists!]!
   fetchWishlistOfMine(class_id: String!): Boolean!

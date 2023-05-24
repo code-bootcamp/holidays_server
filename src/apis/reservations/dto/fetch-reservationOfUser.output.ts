@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class FetchReservationsOfClass {
+export class FetchReservationsOfUser {
   @Field(() => String)
   res_id: string;
 
@@ -20,6 +20,6 @@ export class FetchReservationsOfClass {
   @Field(() => String)
   class_id: string;
 
-  @Field(() => Int)
-  remain: number;
+  @Field(() => String)
+  url: string;
 }
