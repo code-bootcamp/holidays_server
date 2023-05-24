@@ -64,8 +64,9 @@ export class UsersResolver {
   @Mutation(() => String)
   getTokenEmail(
     @Args('email') email: string, //
+    @Args('method') method: string,
   ): Promise<string> {
-    return this.usersService.sendTokenEmail({ email });
+    return this.usersService.sendTokenEmail({ email, method });
   }
 
   @Mutation(() => Boolean)
