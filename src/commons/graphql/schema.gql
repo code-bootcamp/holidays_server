@@ -112,6 +112,7 @@ type FetchClassReviews {
   name: String!
   grade: Int!
   content: String!
+  createdAt: DateTime!
 }
 
 type Reservation {
@@ -126,6 +127,16 @@ type Reservation {
 enum RESERVATION_STATUS_ENUM {
   COMPLETE
   WAITING
+}
+
+type FetchReservationsOfClass {
+  res_id: String!
+  name: String!
+  title: String!
+  date: String!
+  personnel: String!
+  class_id: String!
+  remain: Int!
 }
 
 type FetchWishlists {
@@ -147,6 +158,14 @@ type BoardReview {
   board_: Board!
 }
 
+type FetchBoardReviews {
+  br_id: String!
+  name: String!
+  grade: Int!
+  content: String!
+  createdAt: DateTime!
+}
+
 type Query {
   fetchLoginUser: User!
   fetchUserIdByPhone(phone: String!): User!
@@ -158,13 +177,13 @@ type Query {
   fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [FetchClasses!]!
   fetchClassesOfMine: [FetchClasses!]!
   fetchClassDetail(class_id: String!): Class!
-  fetchClassReviews(class_id: String!): [FetchClassReviews!]!
+  fetchClassReviews(class_id: String!, page: Int = 1): [FetchClassReviews!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
   fetchReservationsOfUser: [Reservation!]!
-  fetchReservationsOfClass(class_id: String!): [Reservation!]!
+  fetchReservationsOfClass: [FetchReservationsOfClass!]!
   fetchWishlists: [FetchWishlists!]!
   fetchWishlistOfMine(class_id: String!): Boolean!
-  fetchBoardReviews(board_id: String!): [BoardReview!]!
+  fetchBoardReviews(board_id: String!, page: Int = 1): [FetchBoardReviews!]!
 }
 
 type Mutation {
@@ -172,6 +191,10 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateUserPwd(pwd: String!): Boolean!
   deleteUser: Boolean!
+  getTokenEmail(email: String!): String!
+  checkEmailToken(email: String!, token: String!): Boolean!
+  getTokenPhone(phone: String!): String!
+  checkPhoneToken(phone: String!, token: String!): Boolean!
   createBoard(createBoardInput: CreateBoardInput!): String!
   updateBoard(updateBoardInput: UpdateBoardInput!): Boolean!
   deleteBoard(board_id: String!): Boolean!

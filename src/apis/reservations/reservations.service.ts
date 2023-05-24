@@ -16,6 +16,7 @@ import {
   IReservationsServiceUpdateStatus,
 } from './interfaces/reservations-service.interface';
 import coolSms from 'coolsms-node-sdk';
+import { FetchReservationsOfClass } from './dto/fetch-reservation.output';
 
 const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
@@ -39,18 +40,39 @@ export class ReservationsService {
     user_id,
   }: IReservationsServiceFindAllByUser): Promise<Reservation[]> {
     return this.reservationsRepository.find({
-      where: { user_: { user_id } },
+      where: { user_: { user_id }, status: RESERVATION_STATUS_ENUM.COMPLETE },
       relations: ['user_', 'class_'],
     });
   }
 
-  findAllByClass({
-    class_id,
-  }: IReservationsServiceFindAllByClass): Promise<Reservation[]> {
-    return this.reservationsRepository.find({
-      where: { class_: { class_id } },
-      relations: ['user_', 'class_'],
-    });
+  async findAllByClass({
+    user_id,
+  }: IReservationsServiceFindAllByClass): Promise<FetchReservationsOfClass[]> {
+    const result = await this.reservationsRepository
+      .createQueryBuilder('reservation')
+      .select([
+        'reservation.res_id AS res_id',
+        'u.name AS name',
+        'c.title AS title',
+        'reservation.res_date AS date',
+        'reservation.personnel AS personnel',
+        'c.class_id AS class_id',
+      ])
+      .innerJoin('class', 'c', 'c.class_id = reservation.class_classId')
+      .innerJoin('user', 'u', 'u.user_id = reservation.user_userId')
+      .where('1=1')
+      .andWhere('reservation.status = "WAITING"')
+      .andWhere('c.user_userId = :user_id', { user_id })
+      .getRawMany();
+
+    for (let i = 0; i < result.length; i++) {
+      result[i].remain = await this.classSchedulesService.findRemainByClass({
+        class_id: result[i].class_id,
+        date: result[i].date,
+      });
+    }
+
+    return result;
   }
 
   async create({

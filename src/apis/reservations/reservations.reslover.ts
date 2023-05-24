@@ -3,6 +3,7 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { IContext } from 'src/commons/interfaces/context';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { CreateReservationInput } from './dto/create-reservation.input';
+import { FetchReservationsOfClass } from './dto/fetch-reservation.output';
 import { Reservation } from './entities/reservation.entity';
 import { ReservationsService } from './reservations.service';
 
@@ -22,12 +23,13 @@ export class ReservationsResolver {
     });
   }
 
-  @Query(() => [Reservation])
+  @UseGuards(GqlAuthGuard('access'))
+  @Query(() => [FetchReservationsOfClass])
   fetchReservationsOfClass(
-    @Args('class_id') class_id: string, //
-  ): Promise<Reservation[]> {
+    @Context() context: IContext,
+  ): Promise<FetchReservationsOfClass[]> {
     return this.reservationsService.findAllByClass({
-      class_id,
+      user_id: context.req.user.user_id,
     });
   }
 

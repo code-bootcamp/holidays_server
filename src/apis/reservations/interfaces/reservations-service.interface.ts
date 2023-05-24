@@ -16,7 +16,7 @@ export interface IReservationsServiceFindAllByUser {
 }
 
 export interface IReservationsServiceFindAllByClass {
-  class_id: string;
+  user_id: string;
 }
 
 export interface IReservationsServiceDelete {
