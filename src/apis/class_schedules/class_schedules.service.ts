@@ -17,6 +17,15 @@ export class ClassSchedulesService {
     });
   }
 
+  async findRemainByClass({ class_id, date }): Promise<number> {
+    const result = await this.classSchedulesRepository.findOne({
+      where: { class_: { class_id }, date },
+      relations: ['class_'],
+    });
+
+    return result.remain;
+  }
+
   async create({ classSchedulesInput, class_id }): Promise<string[]> {
     const schedule = [];
     for (let i = 0; i < classSchedulesInput.length; i++) {
