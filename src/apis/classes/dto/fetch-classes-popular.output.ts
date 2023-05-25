@@ -26,6 +26,9 @@ export class FetchClassesPopular {
   @Field(() => String)
   url: string;
 
+  @Field(() => String)
+  category: string;
+
   @Field(() => Int)
   row_count: number;
 }
