@@ -170,7 +170,7 @@ export class ReservationsService {
   }
 
   async delete({ res_id }: IReservationsServiceDelete): Promise<boolean> {
-    const result = await this.reservationsRepository.softDelete({ res_id });
+    const result = await this.reservationsRepository.delete({ res_id });
 
     return result.affected ? true : false;
   }
