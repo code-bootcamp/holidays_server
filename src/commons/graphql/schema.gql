@@ -1,0 +1,335 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  user_id: String!
+  name: String!
+  phone: String!
+  email: String!
+  birth_date: String!
+  type: Int!
+  deletedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Board {
+  board_id: String!
+  title: String!
+  content: String!
+  createdAt: DateTime!
+  user_: User!
+  image_: [Image!]!
+}
+
+type Class {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  class_mNum: Int!
+  address: String!
+  address_detail: String!
+  lat: Float!
+  lon: Float!
+  category: String!
+  address_category: String!
+  total_time: String!
+  content: String!
+  accountNum: String!
+  accountName: String!
+  bankName: String!
+  is_ad: Int!
+  createdAt: DateTime!
+  user_: User!
+  image_: [Image!]!
+}
+
+type Magazine {
+  magazine_id: String!
+  title: String!
+  content: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  user_: User!
+}
+
+type Image {
+  image_id: String!
+  url: String!
+  type: Int!
+  is_main: Int!
+  class_: Class!
+  board_: Board!
+  magazine_: Magazine!
+}
+
+type FetchBoards {
+  board_id: String!
+  title: String!
+  content: String!
+  name: String!
+  createdAt: DateTime!
+  url: String!
+}
+
+type ClassSchedule {
+  cs_id: String!
+  date: String!
+  remain: Int!
+  class_: Class!
+}
+
+type FetchClassesPopular {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  url: String!
+  row_count: Int!
+}
+
+type FetchClasses {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  is_ad: Int!
+  url: String!
+}
+
+type FetchClassReviews {
+  cr_id: String!
+  name: String!
+  grade: Int!
+  content: String!
+  createdAt: DateTime!
+}
+
+type FetchReservationsOfClass {
+  res_id: String!
+  name: String!
+  title: String!
+  date: String!
+  personnel: String!
+  class_id: String!
+  remain: Int!
+  url: String!
+}
+
+type FetchReservationsOfUser {
+  res_id: String!
+  name: String!
+  title: String!
+  date: String!
+  personnel: String!
+  class_id: String!
+  url: String!
+}
+
+type FetchWishlists {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  url: String!
+}
+
+type BoardReview {
+  br_id: String!
+  content: String!
+  createdAt: DateTime!
+  user_: User!
+  board_: Board!
+}
+
+type FetchBoardReviews {
+  br_id: String!
+  name: String!
+  grade: Int!
+  content: String!
+  createdAt: DateTime!
+}
+
+type Query {
+  fetchLoginUser: User!
+  fetchUserIdByPhone(phone: String!): User!
+  fetchBoardsOfMine: [FetchBoards!]!
+  fetchBoards(page: Int = 1): [FetchBoards!]!
+  fetchBoardDetail(board_id: String!): Board!
+  fetchClasses(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClasses!]!
+  fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClassesPopular!]!
+  fetchClassesAd(category: String = "", address_category: String = "", search: String = ""): [FetchClasses!]!
+  fetchClassesOfMine: [FetchClasses!]!
+  fetchClassDetail(class_id: String!): Class!
+  fetchClassReviews(class_id: String!, page: Int = 1): [FetchClassReviews!]!
+  fetchClassSchedules(class_id: String!): [ClassSchedule!]!
+  fetchReservationsOfUser: [FetchReservationsOfUser!]!
+  fetchReservationsOfClass: [FetchReservationsOfClass!]!
+  fetchWishlists: [FetchWishlists!]!
+  fetchWishlistOfMine(class_id: String!): Boolean!
+  fetchBoardReviews(board_id: String!, page: Int = 1): [FetchBoardReviews!]!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUserPwd(email: String!, pwd: String!): Boolean!
+  deleteUser: Boolean!
+  getTokenEmail(email: String!, method: String!): String!
+  checkEmailToken(email: String!, token: String!): Boolean!
+  getTokenPhone(phone: String!): String!
+  checkPhoneToken(phone: String!, token: String!): Boolean!
+  createBoard(createBoardInput: CreateBoardInput!): String!
+  updateBoard(updateBoardInput: UpdateBoardInput!): Boolean!
+  deleteBoard(board_id: String!): Boolean!
+  createClass(createClassInput: CreateClassInput!): String!
+  updateClass(updateClassInput: UpdateClassInput!): Boolean!
+  deleteClass(class_id: String!): Boolean!
+  createClassInquiry(class_id: String!, content: String!): String!
+  createClassReview(createClassReviewInput: CreateClassReviewInput!): String!
+  updateClassReview(updateClassReviewInput: UpdateClassReviewInput!): Boolean!
+  deleteClassReview(cr_id: String!): Boolean!
+  createClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
+  cancelClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
+  uploadFile(files: [Upload!]!): [String!]!
+  createReservation(createReservationInput: CreateReservationInput!): String!
+  updateReservation(rse_id: String!): Boolean!
+  deleteReservation(res_id: String!): Boolean!
+  createWishlist(class_id: String!): String!
+  deleteWishlist(class_id: String!): Boolean!
+  createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): String!
+  updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
+  deleteBoardReview(br_id: String!): Boolean!
+  createImage(imageInput: [ImageInput!]!, class_: String!, board_: String!, magazine_: String!): [String!]!
+  login(email: String!, pwd: String!): String!
+  logout: String!
+  restoreAccessToken: String!
+}
+
+input CreateUserInput {
+  name: String!
+  pwd: String!
+  phone: String
+  email: String!
+  birth_date: String
+}
+
+input UpdateUserInput {
+  name: String
+  phone: String
+}
+
+input CreateBoardInput {
+  title: String!
+  content: String!
+  imageInput: [ImageInput!]
+}
+
+input ImageInput {
+  url: String!
+  type: Int!
+  is_main: Int!
+}
+
+input UpdateBoardInput {
+  board_id: String!
+  title: String!
+  content: String!
+  email: String!
+  birth_date: String!
+  imageInput: [ImageInput!]
+}
+
+input CreateClassInput {
+  title: String!
+  content_summary: String!
+  price: Int!
+  class_mNum: Int!
+  address: String!
+  address_detail: String!
+  category: String!
+  address_category: String!
+  total_time: String!
+  content: String!
+  accountNum: String!
+  accountName: String!
+  bankName: String!
+  classSchedulesInput: [CreateClassScheduleInput!]!
+  imageInput: [ImageInput!]!
+}
+
+input CreateClassScheduleInput {
+  date: String!
+  remain: Int!
+}
+
+input UpdateClassInput {
+  class_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  class_mNum: Int!
+  address: String!
+  address_detail: String!
+  category: String!
+  address_category: String!
+  total_time: String!
+  content: String!
+  accountNum: String!
+  accountName: String!
+  bankName: String!
+  classSchedulesInput: [CreateClassScheduleInput!]!
+  imageInput: [ImageInput!]!
+}
+
+input CreateClassReviewInput {
+  content: String!
+  grade: Int!
+  class_id: String!
+}
+
+input UpdateClassReviewInput {
+  cr_id: String!
+  content: String!
+  grade: Int!
+}
+
+input CreateClassAdInput {
+  imp_uid: String!
+  amount: Int!
+  method: String!
+  class_id: String!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateReservationInput {
+  class_id: String!
+  res_date: String!
+  personnel: Int!
+}
+
+input CreateBoardReviewInput {
+  content: String!
+  board_id: String!
+}
+
+input UpdateBoardReviewInput {
+  br_id: String!
+  content: String!
+}

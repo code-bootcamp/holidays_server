@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  holidays-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env.prod
+  holidays-redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
