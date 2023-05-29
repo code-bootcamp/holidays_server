@@ -23,7 +23,6 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
         `accessToken:${accessToken}`,
       );
       if (redisAccess === 'accessToken') throw new UnauthorizedException();
-      console.log(payload);
       return {
         user_id: payload.id,
       };

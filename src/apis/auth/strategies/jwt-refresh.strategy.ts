@@ -27,7 +27,6 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         `refreshToken:${refreshToken}`,
       );
       if (redisRefresh === 'refreshToken') throw new UnauthorizedException();
-      console.log(payload);
       return {
         user_id: payload.id,
       };

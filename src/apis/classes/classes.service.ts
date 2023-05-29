@@ -224,10 +224,9 @@ export class ClassesService {
     const result = await messageService.sendOne({
       to: phone.u_phone,
       from: process.env.SMS_SENDER,
-      text: `${user.name}님에게 문의가 왔습니다 
-            문의 내용: ${content}
-            ${user.name}님 연락처: ${user.phone}
-            `,
+      text: `${user.name}님에게 문의가 왔습니다
+      문의 내용: ${content} 
+      ${user.name}님 연락처: ${user.phone}`,
       autoTypeDetect: true,
     });
 
