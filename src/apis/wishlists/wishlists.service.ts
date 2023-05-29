@@ -48,8 +48,6 @@ export class WishlistsService {
       .andWhere('class_classId = :class_id', { class_id })
       .getRawOne();
 
-    console.log(result);
-
     if (result) return true;
     else return false;
   }

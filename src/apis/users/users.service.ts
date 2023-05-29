@@ -58,7 +58,6 @@ export class UsersService {
   }
 
   findOneById({ user_id }: IUsersServiceFindOneById): Promise<User> {
-    console.log('패치로그인유저 이거 타면 안되는거임');
     return this.usersRepository.findOne({ where: { user_id } });
   }
 

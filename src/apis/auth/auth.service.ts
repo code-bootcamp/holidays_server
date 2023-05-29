@@ -65,7 +65,7 @@ export class AuthService {
 
       const accessTtl = accessVerify.exp - accessVerify.iat;
       const refreshTtl = refreshVerify.exp - refreshVerify.iat;
-      console.log(accessTtl, refreshTtl);
+      // console.log(accessTtl, refreshTtl);
       await this.cacheManager.set(`accessToken:${accessToken}`, 'accessToken', {
         ttl: accessTtl,
       });
@@ -136,7 +136,7 @@ export class AuthService {
     );
 
     if (originList.includes(origin)) {
-      console.log(origin);
+      // console.log(origin);
       res.setHeader('Access-Control-Allow-Origin', origin);
     }
   }

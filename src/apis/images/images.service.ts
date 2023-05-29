@@ -76,7 +76,6 @@ export class ImagesService {
   }
 
   async update({ imageInput, class_, board_, magazine_ }): Promise<void> {
-    console.log('업데이트시작');
     const imageAllIdResults = await this.findAllClassId({
       class_,
     });
