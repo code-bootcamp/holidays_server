@@ -45,13 +45,14 @@ export class BoardsService {
       ...boardInput,
       user_: { user_id },
     });
-
-    await this.imagesService.bulkInsert({
-      imageInput,
-      class_: 'null',
-      board_: result.board_id,
-      magazine_: 'null',
-    });
+    if (imageInput) {
+      await this.imagesService.bulkInsert({
+        imageInput,
+        class_: 'null',
+        board_: result.board_id,
+        magazine_: 'null',
+      });
+    }
 
     console.log(result);
 
@@ -68,12 +69,14 @@ export class BoardsService {
       },
     );
 
-    await this.imagesService.update({
-      imageInput,
-      class_: 'null',
-      board_: boardInput.board_id,
-      magazine_: 'null',
-    });
+    if (imageInput) {
+      await this.imagesService.update({
+        imageInput,
+        class_: 'null',
+        board_: boardInput.board_id,
+        magazine_: 'null',
+      });
+    }
 
     console.log('여기 오니?');
     // return result.affected ? true : false;
