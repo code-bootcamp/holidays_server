@@ -197,7 +197,7 @@ type Mutation {
   getTokenPhone(phone: String!): String!
   checkPhoneToken(phone: String!, token: String!): Boolean!
   createBoard(createBoardInput: CreateBoardInput!): String!
-  updateBoard(updateBoardInput: UpdateBoardInput!): Boolean!
+  updateBoard(updateBoardInput: UpdateBoardInput!): String!
   deleteBoard(board_id: String!): Boolean!
   createClass(createClassInput: CreateClassInput!): String!
   updateClass(updateClassInput: UpdateClassInput!): Boolean!

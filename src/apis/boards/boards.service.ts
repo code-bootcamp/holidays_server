@@ -49,6 +49,8 @@ export class BoardsService {
       magazine_: 'null',
     });
 
+    console.log(result);
+
     return result.board_id;
   }
 
@@ -62,7 +64,7 @@ export class BoardsService {
       },
     );
 
-    await this.imagesService.bulkInsert({
+    await this.imagesService.update({
       imageInput,
       class_: 'null',
       board_: boardInput.board_id,
@@ -93,6 +95,9 @@ export class BoardsService {
       .limit(pageSize)
       .offset(pageSize * (page - 1))
       .getRawMany();
+
+    console.log(result);
+
     return result;
   }
 
