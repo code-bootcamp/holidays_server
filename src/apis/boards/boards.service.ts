@@ -36,6 +36,10 @@ export class BoardsService {
     user_id,
   }: IBoardsServiceCreate): Promise<string> {
     const { imageInput, ...boardInput } = createBoardInput;
+    console.log('ddd');
+    console.log(createBoardInput);
+    console.log(imageInput);
+    console.log('ddd');
 
     const result = await this.boardsRepository.save({
       ...boardInput,
