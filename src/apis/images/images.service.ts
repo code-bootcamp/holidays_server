@@ -12,21 +12,24 @@ export class ImagesService {
   ) {}
 
   async findAllClassId({ class_ }): Promise<Image[]> {
-    // const results = await this.imagesRepository.find({
-    //   where: { class_ },
-    //   relations: ['class_'],
-    // });
-
     const results = await this.imagesRepository.find({
+      where: { class_: { class_id: class_ } },
       relations: ['class_'],
     });
+
+    // const results = await this.imagesRepository.find({
+    //   relations: ['class_'],
+    // });
     return results;
   }
 
   async findAllBoardId({ board_ }): Promise<Image[]> {
     const results = await this.imagesRepository.find({
-      where: { board_ },
+      where: { board_: { board_id: board_ } },
+      relations: ['board_'],
     });
+
+    console.log(results);
     return results;
   }
 
