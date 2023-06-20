@@ -79,6 +79,7 @@ export class ClassesService {
         'class.total_time AS total_time',
         'class.address AS address',
         'class.address_detail AS address_detail',
+        'class.category AS category',
         'i.url AS url',
         'count(w.wishlist_id) AS row_count',
       ])
