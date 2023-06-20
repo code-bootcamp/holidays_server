@@ -52,7 +52,7 @@ export class BoardsService {
     return result.board_id;
   }
 
-  async update({ updateBoardInput }: IBoardsServiceUpdate): Promise<boolean> {
+  async update({ updateBoardInput }: IBoardsServiceUpdate): Promise<string> {
     const { imageInput, ...boardInput } = updateBoardInput;
 
     const result = await this.boardsRepository.update(
@@ -69,7 +69,9 @@ export class BoardsService {
       magazine_: 'null',
     });
 
-    return result.affected ? true : false;
+    // return result.affected ? true : false;
+
+    return boardInput.board_id;
   }
 
   async delete({ board_id }): Promise<boolean> {
