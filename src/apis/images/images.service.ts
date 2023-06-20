@@ -76,9 +76,18 @@ export class ImagesService {
   }
 
   async update({ imageInput, class_, board_, magazine_ }): Promise<void> {
-    const imageAllIdResults = await this.findAllClassId({
-      class_,
-    });
+    let imageAllIdResults;
+    if (class_ != 'null') {
+      imageAllIdResults = await this.findAllClassId({
+        class_,
+      });
+      console.log('dd');
+    } else if (board_ != 'null') {
+      imageAllIdResults = await this.findAllBoardId({
+        board_,
+      });
+      console.log('bb');
+    }
 
     for (let i = 0; i < imageAllIdResults.length; i++) {
       this.imagesRepository.delete({ image_id: imageAllIdResults[i].image_id });
