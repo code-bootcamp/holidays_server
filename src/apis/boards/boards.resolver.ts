@@ -36,10 +36,10 @@ export class BoardsResolver {
     });
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => String)
   updateBoard(
     @Args('updateBoardInput') updateBoardInput: UpdateBoardInput, //
-  ): Promise<boolean> {
+  ): Promise<string> {
     return this.boardsService.update({ updateBoardInput });
   }
 
