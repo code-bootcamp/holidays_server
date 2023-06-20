@@ -75,6 +75,7 @@ export class BoardsService {
       magazine_: 'null',
     });
 
+    console.log('여기 오니?');
     // return result.affected ? true : false;
 
     return boardInput.board_id;
