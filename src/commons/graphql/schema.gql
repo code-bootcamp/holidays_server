@@ -93,6 +93,7 @@ type FetchClassesPopular {
   address: String!
   address_detail: String!
   url: String!
+  category: String!
   row_count: Int!
 }
 
@@ -104,6 +105,7 @@ type FetchClasses {
   total_time: String!
   address: String!
   address_detail: String!
+  category: String!
   is_ad: Int!
   url: String!
 }
@@ -133,6 +135,7 @@ type FetchReservationsOfUser {
   title: String!
   date: String!
   personnel: String!
+  status: String!
   class_id: String!
   url: String!
 }
@@ -249,8 +252,6 @@ input UpdateBoardInput {
   board_id: String!
   title: String!
   content: String!
-  email: String!
-  birth_date: String!
   imageInput: [ImageInput!]
 }
 
@@ -292,8 +293,14 @@ input UpdateClassInput {
   accountNum: String!
   accountName: String!
   bankName: String!
-  classSchedulesInput: [CreateClassScheduleInput!]!
+  classSchedulesInput: [UpdateClassScheduleInput!]!
   imageInput: [ImageInput!]!
+}
+
+input UpdateClassScheduleInput {
+  cs_id: String!
+  date: String!
+  remain: Int!
 }
 
 input CreateClassReviewInput {

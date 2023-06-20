@@ -30,3 +30,7 @@ export interface IReservationsServiceUpdateStatus {
 export interface IReservationsServiceSendReservation {
   class_id: string;
 }
+
+export interface IReservationsServiceSendReservationComplete {
+  user_id: string;
+}

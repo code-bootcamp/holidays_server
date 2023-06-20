@@ -12,12 +12,6 @@ export class UpdateBoardInput {
   @Field(() => String)
   content: string;
 
-  @Field(() => String)
-  email: string;
-
-  @Field(() => String)
-  birth_date: string;
-
   @Field(() => [ImageInput], { nullable: true })
   imageInput: ImageInput[];
 }

@@ -18,6 +18,9 @@ export class FetchReservationsOfUser {
   personnel: string;
 
   @Field(() => String)
+  status: string;
+
+  @Field(() => String)
   class_id: string;
 
   @Field(() => String)

@@ -13,6 +13,7 @@ import {
   IReservationsServiceFindAllByUser,
   IReservationsServiceFindOne,
   IReservationsServiceSendReservation,
+  IReservationsServiceSendReservationComplete,
   IReservationsServiceUpdateStatus,
 } from './interfaces/reservations-service.interface';
 import coolSms from 'coolsms-node-sdk';
@@ -48,6 +49,7 @@ export class ReservationsService {
         'c.title AS title',
         'reservation.res_date AS date',
         'reservation.personnel AS personnel',
+        'reservation.status AS status',
         'c.class_id AS class_id',
         'i.url AS url',
       ])
@@ -55,7 +57,6 @@ export class ReservationsService {
       .innerJoin('user', 'u', 'u.user_id = reservation.user_userId')
       .innerJoin('image', 'i', 'i.class_classId = reservation.class_classId')
       .where('1=1')
-      .andWhere('reservation.status = "COMPLETE"')
       .andWhere('reservation.user_userId = :user_id', { user_id })
       .andWhere('i.is_main = 1')
       .getRawMany();
@@ -110,6 +111,8 @@ export class ReservationsService {
       status,
     });
 
+    await this.sendReservation({ class_id });
+
     return result.res_id;
   }
 
@@ -119,7 +122,7 @@ export class ReservationsService {
     const reservation = await this.findOne({ res_id });
 
     const res_date = reservation.res_date;
-
+    const user_id = reservation.user_.user_id;
     const personnel = reservation.personnel;
     const class_id = reservation.class_.class_id;
 
@@ -136,7 +139,7 @@ export class ReservationsService {
       class_id,
     });
 
-    await this.sendReservation({ class_id });
+    await this.sendReservationComplete({ user_id });
 
     return true;
   }
@@ -159,6 +162,28 @@ export class ReservationsService {
       text: `${user_class.title}클래스에 예약신청이 왔습니다 
             입금 확인 후 예약 승인을 눌러주세요!
             `,
+      autoTypeDetect: true,
+    });
+
+    return '문자 전송 완료!';
+  }
+
+  async sendReservationComplete({
+    user_id,
+  }: IReservationsServiceSendReservationComplete): Promise<string> {
+    const user_class = await this.reservationsRepository
+      .createQueryBuilder('reservation')
+      .select(['u.phone AS phone', 'c.title AS title'])
+      .innerJoin('class', 'c', 'c.class_id = reservation.class_classId')
+      .innerJoin('user', 'u', 'reservation.user_userId = u.user_id')
+      .where('1=1')
+      .andWhere('u.user_id = :user_id', { user_id })
+      .getRawOne();
+
+    const result = await messageService.sendOne({
+      to: user_class.phone,
+      from: process.env.SMS_SENDER,
+      text: `${user_class.title} 클래스 예약이 완료되었습니다!`,
       autoTypeDetect: true,
     });
 
