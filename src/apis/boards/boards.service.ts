@@ -49,6 +49,8 @@ export class BoardsService {
       magazine_: 'null',
     });
 
+    console.log(result);
+
     return result.board_id;
   }
 
