@@ -35,7 +35,8 @@ export class ClassSchedulesService {
         class_: class_id,
       });
     }
-
+    console.log('스케쥴 왜?');
+    console.log(classSchedulesInput);
     const results = await this.classSchedulesRepository.insert(schedule);
 
     const cs_id = [];
