@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 import { Class } from 'src/apis/classes/entities/class.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
@@ -21,8 +21,8 @@ export class ClassReview {
   @Field(() => String)
   content: string;
 
-  @Column()
-  @Field(() => Int)
+  @Column({ type: 'decimal', precision: 2, scale: 1, default: 0.0 })
+  @Field(() => Float)
   grade: number;
 
   @CreateDateColumn()

@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, Float, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateClassReviewInput {
@@ -8,6 +8,6 @@ export class UpdateClassReviewInput {
   @Field(() => String)
   content: string;
 
-  @Field(() => Int)
+  @Field(() => Float)
   grade: number;
 }

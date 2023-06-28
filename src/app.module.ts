@@ -20,6 +20,7 @@ import { AuthModule } from './apis/auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ClassInquiriesModule } from './apis/class_inquiries/class_inquiries.module';
+import { BoardPostsModule } from './apis/board_posts/board_posts.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ClassInquiriesModule } from './apis/class_inquiries/class_inquiries.mod
     ReservationsModule,
     WishlistsModule,
     BoardReviewsModule,
+    BoardPostsModule,
     ImagesModule,
     AuthModule,
     ConfigModule.forRoot(),
