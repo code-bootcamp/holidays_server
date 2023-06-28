@@ -113,7 +113,7 @@ type FetchClasses {
 type FetchClassReviews {
   cr_id: String!
   name: String!
-  grade: Int!
+  grade: Float!
   content: String!
   createdAt: DateTime!
 }
@@ -174,6 +174,17 @@ type FetchClassInquiries {
   createdAt: DateTime!
 }
 
+type FetchBoardPosts {
+  board_id: String!
+  title: String!
+  content_summary: String!
+  price: Int!
+  total_time: String!
+  address: String!
+  address_detail: String!
+  url: String!
+}
+
 type Query {
   fetchLoginUser: User!
   fetchUserIdByPhone(phone: String!): User!
@@ -193,6 +204,8 @@ type Query {
   fetchWishlists: [FetchWishlists!]!
   fetchWishlistOfMine(class_id: String!): Boolean!
   fetchBoardReviews(board_id: String!, page: Int = 1): [FetchBoardReviews!]!
+  fetchBoardPosts: [FetchBoardPosts!]!
+  fetchBoardPostOfMine(board_id: String!): Boolean!
 }
 
 type Mutation {
@@ -227,6 +240,8 @@ type Mutation {
   createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): String!
   updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
   deleteBoardReview(br_id: String!): Boolean!
+  createBoardPost(board_id: String!): String!
+  deleteBoardPost(board_id: String!): Boolean!
   createImage(imageInput: [ImageInput!]!, class_: String!, board_: String!, magazine_: String!): [String!]!
   login(email: String!, pwd: String!): String!
   logout: String!
@@ -315,14 +330,14 @@ input UpdateClassScheduleInput {
 
 input CreateClassReviewInput {
   content: String!
-  grade: Int!
+  grade: Float!
   class_id: String!
 }
 
 input UpdateClassReviewInput {
   cr_id: String!
   content: String!
-  grade: Int!
+  grade: Float!
 }
 
 input CreateClassAdInput {
