@@ -167,6 +167,13 @@ type FetchBoardReviews {
   createdAt: DateTime!
 }
 
+type FetchClassInquiries {
+  ci_id: String!
+  name: String!
+  content: String!
+  createdAt: DateTime!
+}
+
 type Query {
   fetchLoginUser: User!
   fetchUserIdByPhone(phone: String!): User!
@@ -179,6 +186,7 @@ type Query {
   fetchClassesOfMine: [FetchClasses!]!
   fetchClassDetail(class_id: String!): Class!
   fetchClassReviews(class_id: String!, page: Int = 1): [FetchClassReviews!]!
+  fetchClassInquiries(class_id: String!, page: Int = 1): [FetchClassInquiries!]!
   fetchClassSchedules(class_id: String!): [ClassSchedule!]!
   fetchReservationsOfUser: [FetchReservationsOfUser!]!
   fetchReservationsOfClass: [FetchReservationsOfClass!]!
@@ -202,12 +210,14 @@ type Mutation {
   createClass(createClassInput: CreateClassInput!): String!
   updateClass(updateClassInput: UpdateClassInput!): Boolean!
   deleteClass(class_id: String!): Boolean!
-  createClassInquiry(class_id: String!, content: String!): String!
   createClassReview(createClassReviewInput: CreateClassReviewInput!): String!
   updateClassReview(updateClassReviewInput: UpdateClassReviewInput!): Boolean!
   deleteClassReview(cr_id: String!): Boolean!
   createClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
   cancelClassAd(createClassAdInput: CreateClassAdInput!): Boolean!
+  createClassInquiry(createClassInquiryInput: CreateClassInquiryInput!): String!
+  updateClassInquiry(updateClassInquiryInput: UpdateClassInquiryInput!): Boolean!
+  deleteClassInquiry(ci_id: String!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   createReservation(createReservationInput: CreateReservationInput!): String!
   updateReservation(rse_id: String!): Boolean!
@@ -320,6 +330,16 @@ input CreateClassAdInput {
   amount: Int!
   method: String!
   class_id: String!
+}
+
+input CreateClassInquiryInput {
+  content: String!
+  class_id: String!
+}
+
+input UpdateClassInquiryInput {
+  ci_id: String!
+  content: String!
 }
 
 """The `Upload` scalar type represents a file upload."""

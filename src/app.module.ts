@@ -19,6 +19,7 @@ import { ImagesModule } from './apis/images/images.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { ClassInquiriesModule } from './apis/class_inquiries/class_inquiries.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     ClassReviewsModule,
     ClassAdsModule,
     ClassReviewsModule,
+    ClassInquiriesModule,
     ClassSchedulesModule,
     FilesModule,
     ReservationsModule,
