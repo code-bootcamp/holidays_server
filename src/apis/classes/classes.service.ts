@@ -6,7 +6,6 @@ import { ImagesService } from '../images/images.service';
 import { FetchClassesPopular } from './dto/fetch-classes-popular.output';
 import { FetchClasses } from './dto/fetch-classes.output';
 import { Class } from './entities/class.entity';
-import coolSms from 'coolsms-node-sdk';
 
 import {
   IClassesServiceCreate,
@@ -14,12 +13,8 @@ import {
   IClassesServiceFindAllByFilter,
   IClassesServiceFindAllByFilterWithAd,
   IClassesServiceFindOneById,
-  IClassesServiceSendClassInquiry,
   IClassesServiceUpdate,
 } from './interfaces/classes-service.interface';
-import { UsersService } from '../users/users.service';
-
-const messageService = new coolSms(process.env.SMS_KEY, process.env.SMS_SECRET);
 
 @Injectable()
 export class ClassesService {
@@ -30,8 +25,6 @@ export class ClassesService {
     private readonly classSchedulesService: ClassSchedulesService,
 
     private readonly imagesService: ImagesService,
-
-    private readonly usersService: UsersService,
   ) {}
 
   async findAllByFilter({
@@ -205,32 +198,5 @@ export class ClassesService {
     const result = await this.classesRepository.softDelete({ class_id });
 
     return result.affected ? true : false;
-  }
-
-  async sendClassInquiry({
-    user_id,
-    class_id,
-    content,
-  }: IClassesServiceSendClassInquiry): Promise<string> {
-    const phone = await this.classesRepository
-      .createQueryBuilder('class')
-      .select('u.phone')
-      .innerJoin('user', 'u', 'class.user_userId = u.user_id')
-      .where('1=1')
-      .andWhere('class.class_id = :class_id', { class_id })
-      .getRawOne();
-
-    const user = await this.usersService.findOneById({ user_id });
-
-    const result = await messageService.sendOne({
-      to: phone.u_phone,
-      from: process.env.SMS_SENDER,
-      text: `${user.name}님에게 문의가 왔습니다
-문의 내용: ${content} 
-${user.name}님 연락처: ${user.phone}`,
-      autoTypeDetect: true,
-    });
-
-    return '문의 전송 완료!';
   }
 }

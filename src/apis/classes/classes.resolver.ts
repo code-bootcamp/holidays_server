@@ -162,18 +162,4 @@ export class ClassesResolver {
   ): Promise<boolean> {
     return this.classesService.delete({ class_id });
   }
-
-  @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => String)
-  createClassInquiry(
-    @Context() context: IContext,
-    @Args('class_id') class_id: string,
-    @Args('content') content: string,
-  ): Promise<string> {
-    return this.classesService.sendClassInquiry({
-      user_id: context.req.user.user_id,
-      class_id,
-      content,
-    });
-  }
 }
