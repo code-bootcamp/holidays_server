@@ -77,7 +77,7 @@ export class ClassesService {
         'count(w.wishlist_id) AS row_count',
       ])
       .innerJoin('image', 'i', 'class.class_id = i.class_classId')
-      .innerJoin('wishlist', 'w', 'class.class_id = w.class_classId')
+      .leftJoin('wishlist', 'w', 'class.class_id = w.class_classId')
       .where('1=1')
       .andWhere('category LIKE "%":category"%"', { category })
       .andWhere('address_category LIKE "%":address_category"%"', {

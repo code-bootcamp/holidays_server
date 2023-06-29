@@ -12,11 +12,11 @@ export class BoardPostsResolver {
   ) {}
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   createBoardPost(
     @Context() context: IContext,
     @Args('board_id') board_id: string,
-  ): Promise<string> {
+  ): Promise<boolean> {
     return this.boardPostsService.create({
       user_id: context.req.user.user_id,
       board_id,
@@ -34,11 +34,11 @@ export class BoardPostsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Query(() => Boolean)
+  @Query(() => String)
   fetchBoardPostOfMine(
     @Context() context: IContext, //
     @Args('board_id') board_id: string,
-  ): Promise<boolean> {
+  ): Promise<string> {
     return this.boardPostsService.findOneByUserId({
       board_id,
       user_id: context.req.user.user_id,
