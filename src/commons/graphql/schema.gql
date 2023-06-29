@@ -17,6 +17,12 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type BoardPost {
+  bp_id: String!
+  user_: User!
+  board_: Board!
+}
+
 type Board {
   board_id: String!
   title: String!
@@ -24,6 +30,7 @@ type Board {
   createdAt: DateTime!
   user_: User!
   image_: [Image!]!
+  bp_: [BoardPost!]!
 }
 
 type Class {
@@ -75,6 +82,7 @@ type FetchBoards {
   name: String!
   createdAt: DateTime!
   url: String!
+  row_count: Int!
 }
 
 type ClassSchedule {
@@ -151,14 +159,6 @@ type FetchWishlists {
   url: String!
 }
 
-type BoardReview {
-  br_id: String!
-  content: String!
-  createdAt: DateTime!
-  user_: User!
-  board_: Board!
-}
-
 type FetchBoardReviews {
   br_id: String!
   name: String!
@@ -205,7 +205,7 @@ type Query {
   fetchWishlistOfMine(class_id: String!): Boolean!
   fetchBoardReviews(board_id: String!, page: Int = 1): [FetchBoardReviews!]!
   fetchBoardPosts: [FetchBoardPosts!]!
-  fetchBoardPostOfMine(board_id: String!): Boolean!
+  fetchBoardPostOfMine(board_id: String!): String!
 }
 
 type Mutation {
@@ -238,9 +238,9 @@ type Mutation {
   createWishlist(class_id: String!): String!
   deleteWishlist(class_id: String!): Boolean!
   createBoardReview(createBoardReviewInput: CreateBoardReviewInput!): String!
-  updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): BoardReview!
+  updateBoardReview(updateBoardReviewInput: UpdateBoardReviewInput!): Boolean!
   deleteBoardReview(br_id: String!): Boolean!
-  createBoardPost(board_id: String!): String!
+  createBoardPost(board_id: String!): Boolean!
   deleteBoardPost(board_id: String!): Boolean!
   createImage(imageInput: [ImageInput!]!, class_: String!, board_: String!, magazine_: String!): [String!]!
   login(email: String!, pwd: String!): String!

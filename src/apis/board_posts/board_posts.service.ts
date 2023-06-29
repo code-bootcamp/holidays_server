@@ -32,7 +32,7 @@ export class BoardPostsService {
     return result;
   }
 
-  async findOneByUserId({ board_id, user_id }): Promise<boolean> {
+  async findOneByUserId({ board_id, user_id }): Promise<string> {
     const result = await this.boardPostsRepository
       .createQueryBuilder('boardPost')
       .select('bp_id')
@@ -40,20 +40,25 @@ export class BoardPostsService {
       .andWhere('board_boardId = :board_id', { board_id })
       .getRawOne();
 
-    if (result) return true;
-    else return false;
+    return result;
   }
 
   async create({
     user_id,
     board_id,
-  }: IBoardPostsServiceCreate): Promise<string> {
-    const result = await this.boardPostsRepository.save({
-      user_: { user_id },
-      board_: { board_id },
-    });
+  }: IBoardPostsServiceCreate): Promise<boolean> {
+    const is_post = await this.findOneByUserId({ board_id, user_id });
 
-    return result.bp_id;
+    if (is_post) {
+      await this.delete({ board_id, user_id });
+      return false;
+    } else {
+      await this.boardPostsRepository.save({
+        user_: { user_id },
+        board_: { board_id },
+      });
+      return true;
+    }
   }
 
   async delete({

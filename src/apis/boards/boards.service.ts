@@ -95,10 +95,20 @@ export class BoardsService {
 
     const result = await this.boardsRepository
       .createQueryBuilder('board')
-      .select('*')
+      .select([
+        'board.board_id AS board_id',
+        'board.title AS title',
+        'board.createdAt AS createdAt',
+        'board.content AS content',
+        'i.url AS url',
+        'u.name AS name',
+        'count(bp.bp_id) AS row_count',
+      ])
       .innerJoin('image', 'i', 'i.board_boardId = board.board_id')
       .innerJoin('user', 'u', 'u.user_id = board.user_userId')
+      .leftJoin('board_post', 'bp', 'board_id = bp.board_boardId')
       .where('i.is_main = 1')
+      .groupBy('board_id, title, createdAt, content, url, name')
       .orderBy('board.createdAt', 'DESC')
       .limit(pageSize)
       .offset(pageSize * (page - 1))
@@ -112,7 +122,7 @@ export class BoardsService {
   findOneById({ board_id }): Promise<Board> {
     return this.boardsRepository.findOne({
       where: { board_id },
-      relations: ['user_', 'image_'],
+      relations: ['user_', 'image_', 'bp_'],
     });
   }
 }

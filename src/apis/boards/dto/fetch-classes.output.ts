@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class FetchBoards {
@@ -19,4 +19,7 @@ export class FetchBoards {
 
   @Field(() => String)
   url: string;
+
+  @Field(() => Int)
+  row_count: number;
 }

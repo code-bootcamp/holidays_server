@@ -37,11 +37,11 @@ export class BoardReviewsResolver {
   }
 
   @UseGuards(GqlAuthGuard('access'))
-  @Mutation(() => BoardReview)
+  @Mutation(() => Boolean)
   updateBoardReview(
     @Args('updateBoardReviewInput')
     updateBoardReviewInput: UpdateBoardReviewInput, //
-  ) {
+  ): Promise<boolean> {
     return this.boardReviewsService.update({ updateBoardReviewInput });
   }
 
