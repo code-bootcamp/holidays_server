@@ -55,7 +55,12 @@ export class BoardsResolver {
     @Args({ name: 'page', type: () => Int, nullable: true, defaultValue: 1 })
     page: number,
   ): Promise<FetchBoards[]> {
-    return this.boardsService.findAll({ page });
+    return this.boardsService.findAllPage({ page });
+  }
+
+  @Query(() => [FetchBoards])
+  fetchMagazines(): Promise<FetchBoards[]> {
+    return this.boardsService.findAll();
   }
 
   @Query(() => Board)
