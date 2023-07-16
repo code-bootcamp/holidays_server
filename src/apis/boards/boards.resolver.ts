@@ -59,8 +59,11 @@ export class BoardsResolver {
   }
 
   @Query(() => [FetchBoards])
-  fetchMagazines(): Promise<FetchBoards[]> {
-    return this.boardsService.findAll();
+  fetchMagazines(
+    @Args({ name: 'createdAt', type: () => Int })
+    createdAt: number,
+  ): Promise<FetchBoards[]> {
+    return this.boardsService.findAll({ createdAt });
   }
 
   @Query(() => Board)

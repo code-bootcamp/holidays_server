@@ -190,7 +190,7 @@ type Query {
   fetchUserIdByPhone(phone: String!): User!
   fetchBoardsOfMine: [FetchBoards!]!
   fetchBoards(page: Int = 1): [FetchBoards!]!
-  fetchMagazines: [FetchBoards!]!
+  fetchMagazines(createdAt: Int!): [FetchBoards!]!
   fetchBoardDetail(board_id: String!): Board!
   fetchClasses(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClasses!]!
   fetchClassesPopular(category: String = "", address_category: String = "", search: String = "", page: Int = 1): [FetchClassesPopular!]!

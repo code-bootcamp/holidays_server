@@ -9,3 +9,7 @@ export interface IBoardsServiceCreate {
 export interface IBoardsServiceUpdate {
   updateBoardInput: UpdateBoardInput;
 }
+
+export interface IBoardsServiceFindAll {
+  createdAt: number;
+}
