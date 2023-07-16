@@ -136,7 +136,9 @@ export class BoardsService {
       .innerJoin('user', 'u', 'u.user_id = board.user_userId')
       .leftJoin('board_post', 'bp', 'board.board_id = bp.board_boardId')
       .where('i.is_main = 1')
-      .andWhere('board.createdAt > :createdAt', { createdAt })
+      .andWhere('DATE_FORMAT(board.createdAt,"%Y%m") = :createdAt', {
+        createdAt,
+      })
       .groupBy('board_id, title, createdAt, content, url, name')
       .orderBy('row_count', 'DESC')
       .limit(3)
