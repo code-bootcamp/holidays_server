@@ -6,6 +6,7 @@ import { FetchBoards } from './dto/fetch-classes.output';
 import { Board } from './entities/board.entity';
 import {
   IBoardsServiceCreate,
+  IBoardsServiceFindAll,
   IBoardsServiceUpdate,
 } from './interfaces/boards-service.interface';
 
@@ -106,7 +107,7 @@ export class BoardsService {
       ])
       .innerJoin('image', 'i', 'i.board_boardId = board.board_id')
       .innerJoin('user', 'u', 'u.user_id = board.user_userId')
-      .leftJoin('board_post', 'bp', 'board_id = bp.board_boardId')
+      .leftJoin('board_post', 'bp', 'board.board_id = bp.board_boardId')
       .where('i.is_main = 1')
       .groupBy('board_id, title, createdAt, content, url, name')
       .orderBy('board.createdAt', 'DESC')
@@ -119,7 +120,7 @@ export class BoardsService {
     return result;
   }
 
-  async findAll(): Promise<FetchBoards[]> {
+  async findAll({ createdAt }: IBoardsServiceFindAll): Promise<FetchBoards[]> {
     const result = await this.boardsRepository
       .createQueryBuilder('board')
       .select([
@@ -133,9 +134,12 @@ export class BoardsService {
       ])
       .innerJoin('image', 'i', 'i.board_boardId = board.board_id')
       .innerJoin('user', 'u', 'u.user_id = board.user_userId')
-      .leftJoin('board_post', 'bp', 'board_id = bp.board_boardId')
+      .leftJoin('board_post', 'bp', 'board.board_id = bp.board_boardId')
       .where('i.is_main = 1')
+      .andWhere('board.createdAt > :createdAt', { createdAt })
       .groupBy('board_id, title, createdAt, content, url, name')
+      .orderBy('row_count', 'DESC')
+      .limit(3)
       .getRawMany();
 
     console.log(result);
