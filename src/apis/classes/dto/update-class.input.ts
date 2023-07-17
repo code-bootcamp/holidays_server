@@ -48,7 +48,7 @@ export class UpdateClassInput {
   bankName: string;
 
   @Field(() => [UpdateClassScheduleInput])
-  classSchedulesInput: UpdateClassScheduleInput;
+  classSchedulesInput: UpdateClassScheduleInput[];
 
   @Field(() => [ImageInput])
   imageInput: ImageInput[];

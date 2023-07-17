@@ -50,16 +50,16 @@ export class ClassSchedulesService {
     const schedule = [];
 
     for (let i = 0; i < classSchedulesInput.length; i++) {
-      this.delete({
+      await this.delete({
         cs_id: classSchedulesInput.cs_id,
       });
+
       schedule.push({
         date: classSchedulesInput[i].date,
         remain: classSchedulesInput[i].remain,
         class_: class_id,
       });
     }
-
     const results = await this.classSchedulesRepository.insert(schedule);
 
     const cs_id = [];
