@@ -102,13 +102,19 @@ export class ReservationsService {
     createReservationInput,
     status = RESERVATION_STATUS_ENUM.WAITING,
   }: IReservationsServiceCreate): Promise<string> {
-    const class_id = createReservationInput.class_id;
+    const { class_id, res_date, personnel } = createReservationInput;
 
     const result = await this.reservationsRepository.save({
       user_: { user_id },
       class_: { class_id },
       ...createReservationInput,
       status,
+    });
+
+    await this.classSchedulesService.updateRemain({
+      res_date,
+      personnel,
+      class_id,
     });
 
     await this.sendReservation({ class_id });
@@ -121,10 +127,7 @@ export class ReservationsService {
   }: IReservationsServiceUpdateStatus): Promise<boolean> {
     const reservation = await this.findOne({ res_id });
 
-    const res_date = reservation.res_date;
     const user_id = reservation.user_.user_id;
-    const personnel = reservation.personnel;
-    const class_id = reservation.class_.class_id;
 
     const result = await this.reservationsRepository.update(
       { res_id },
@@ -132,12 +135,6 @@ export class ReservationsService {
     );
 
     const is_res = result.affected ? true : false;
-
-    await this.classSchedulesService.updateRemain({
-      res_date,
-      personnel,
-      class_id,
-    });
 
     await this.sendReservationComplete({ user_id });
 
