@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { getTodayYYMMDD } from 'src/commons/utils/util';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { ClassSchedule } from './entities/class_schedule.entity';
 
@@ -11,8 +12,14 @@ export class ClassSchedulesService {
   ) {}
 
   findAllByClass({ class_id }): Promise<ClassSchedule[]> {
+    const sysDate = getTodayYYMMDD();
+    console.log(sysDate);
     return this.classSchedulesRepository.find({
-      where: { class_: { class_id }, remain: MoreThanOrEqual(0) },
+      where: {
+        class_: { class_id },
+        remain: MoreThanOrEqual(0),
+        date: MoreThanOrEqual(sysDate),
+      },
       relations: ['class_'],
     });
   }
@@ -51,7 +58,7 @@ export class ClassSchedulesService {
 
     for (let i = 0; i < classSchedulesInput.length; i++) {
       await this.delete({
-        cs_id: classSchedulesInput.cs_id,
+        cs_id: classSchedulesInput[i].cs_id,
       });
 
       schedule.push({
