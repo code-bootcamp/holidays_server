@@ -37,10 +37,6 @@ export class BoardsService {
     user_id,
   }: IBoardsServiceCreate): Promise<string> {
     const { imageInput, ...boardInput } = createBoardInput;
-    console.log('ddd');
-    console.log(createBoardInput);
-    console.log(imageInput);
-    console.log('ddd');
 
     const result = await this.boardsRepository.save({
       ...boardInput,
@@ -54,8 +50,6 @@ export class BoardsService {
         magazine_: 'null',
       });
     }
-
-    console.log(result);
 
     return result.board_id;
   }
@@ -78,8 +72,6 @@ export class BoardsService {
         magazine_: 'null',
       });
     }
-
-    console.log('여기 오니?');
     // return result.affected ? true : false;
 
     return boardInput.board_id;
@@ -115,8 +107,6 @@ export class BoardsService {
       .offset(pageSize * (page - 1))
       .getRawMany();
 
-    console.log(result);
-
     return result;
   }
 
@@ -143,8 +133,6 @@ export class BoardsService {
       .orderBy('row_count', 'DESC')
       .limit(3)
       .getRawMany();
-
-    console.log(result);
 
     return result;
   }

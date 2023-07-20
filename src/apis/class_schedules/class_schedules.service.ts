@@ -13,7 +13,7 @@ export class ClassSchedulesService {
 
   findAllByClass({ class_id }): Promise<ClassSchedule[]> {
     const sysDate = getTodayYYMMDD();
-    console.log(sysDate);
+
     return this.classSchedulesRepository.find({
       where: {
         class_: { class_id },
@@ -42,8 +42,7 @@ export class ClassSchedulesService {
         class_: class_id,
       });
     }
-    console.log('스케쥴 왜?');
-    console.log(classSchedulesInput);
+
     const results = await this.classSchedulesRepository.insert(schedule);
 
     const cs_id = [];
@@ -54,13 +53,17 @@ export class ClassSchedulesService {
   }
 
   async update({ classSchedulesInput, class_id }): Promise<string[]> {
+    const findClass = await this.findAllByClass({ class_id });
+
+    for (let i = 0; i < findClass.length; i++) {
+      await this.delete({
+        cs_id: findClass[i].cs_id,
+      });
+    }
+
     const schedule = [];
 
     for (let i = 0; i < classSchedulesInput.length; i++) {
-      await this.delete({
-        cs_id: classSchedulesInput[i].cs_id,
-      });
-
       schedule.push({
         date: classSchedulesInput[i].date,
         remain: classSchedulesInput[i].remain,
