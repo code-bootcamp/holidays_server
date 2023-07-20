@@ -82,6 +82,7 @@ export class ReservationsService {
       .innerJoin('user', 'u', 'u.user_id = reservation.user_userId')
       .innerJoin('image', 'i', 'i.class_classId = reservation.class_classId')
       .where('1=1')
+      .andWhere('reservation.status = "WAITING"')
       .andWhere('reservation.user_userId = :user_id', { user_id })
       .andWhere('i.is_main = 1')
       .getRawMany();
