@@ -29,7 +29,6 @@ export class ImagesService {
       relations: ['board_'],
     });
 
-    console.log(results);
     return results;
   }
 
@@ -84,12 +83,10 @@ export class ImagesService {
       imageAllIdResults = await this.findAllClassId({
         class_,
       });
-      console.log('dd');
     } else if (board_ != 'null') {
       imageAllIdResults = await this.findAllBoardId({
         board_,
       });
-      console.log('bb');
     }
 
     for (let i = 0; i < imageAllIdResults.length; i++) {
